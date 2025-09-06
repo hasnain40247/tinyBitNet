@@ -1,0 +1,5 @@
+/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles/tinybitlib.dir
+/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles/tinybitnet.dir
+/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles/tests.dir
+/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles/edit_cache.dir
+/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles/rebuild_cache.dir

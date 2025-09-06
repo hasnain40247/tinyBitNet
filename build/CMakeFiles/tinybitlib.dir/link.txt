@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtinybitlib.a CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o CMakeFiles/tinybitlib.dir/src/main.cpp.o CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o CMakeFiles/tinybitlib.dir/src/tensor.cpp.o
+/usr/bin/ranlib libtinybitlib.a
