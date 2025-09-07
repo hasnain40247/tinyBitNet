@@ -1,1 +1,0 @@
-/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/tests.dir/tests/test_embedding.cpp.o CMakeFiles/tests.dir/tests/test_linear.cpp.o -o tests  libtinybitlib.a /opt/homebrew/lib/libCatch2Main.a /opt/homebrew/lib/libCatch2.a
