@@ -72,10 +72,24 @@ include CMakeFiles/tinybitlib.dir/flags.make
 CMakeFiles/tinybitlib.dir/codegen:
 .PHONY : CMakeFiles/tinybitlib.dir/codegen
 
+CMakeFiles/tinybitlib.dir/src/block.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
+CMakeFiles/tinybitlib.dir/src/block.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/block.cpp
+CMakeFiles/tinybitlib.dir/src/block.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tinybitlib.dir/src/block.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/block.cpp.o -MF CMakeFiles/tinybitlib.dir/src/block.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/block.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/block.cpp
+
+CMakeFiles/tinybitlib.dir/src/block.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tinybitlib.dir/src/block.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/hasnainsikora/Projects/tinyBit/src/block.cpp > CMakeFiles/tinybitlib.dir/src/block.cpp.i
+
+CMakeFiles/tinybitlib.dir/src/block.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/block.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/block.cpp -o CMakeFiles/tinybitlib.dir/src/block.cpp.s
+
 CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
 CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/layers/attention.cpp
 CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o -MF CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/layers/attention.cpp
 
 CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.i: cmake_force
@@ -85,20 +99,6 @@ CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.i: cmake_force
 CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/layers/attention.cpp -o CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.s
-
-CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
-CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/layers/block.cpp
-CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o -MF CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/layers/block.cpp
-
-CMakeFiles/tinybitlib.dir/src/layers/block.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tinybitlib.dir/src/layers/block.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/hasnainsikora/Projects/tinyBit/src/layers/block.cpp > CMakeFiles/tinybitlib.dir/src/layers/block.cpp.i
-
-CMakeFiles/tinybitlib.dir/src/layers/block.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/layers/block.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/layers/block.cpp -o CMakeFiles/tinybitlib.dir/src/layers/block.cpp.s
 
 CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
 CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/layers/embedding.cpp
@@ -114,24 +114,10 @@ CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/layers/embedding.cpp -o CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.s
 
-CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
-CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/layers/feedForward.cpp
-CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o -MF CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/layers/feedForward.cpp
-
-CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/hasnainsikora/Projects/tinyBit/src/layers/feedForward.cpp > CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.i
-
-CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/layers/feedForward.cpp -o CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.s
-
 CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
 CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/layers/layerNorm.cpp
 CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o -MF CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/layers/layerNorm.cpp
 
 CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.i: cmake_force
@@ -142,24 +128,10 @@ CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/layers/layerNorm.cpp -o CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.s
 
-CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
-CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/layers/linear.cpp
-CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o -MF CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/layers/linear.cpp
-
-CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/hasnainsikora/Projects/tinyBit/src/layers/linear.cpp > CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.i
-
-CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/layers/linear.cpp -o CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.s
-
 CMakeFiles/tinybitlib.dir/src/main.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
 CMakeFiles/tinybitlib.dir/src/main.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/main.cpp
 CMakeFiles/tinybitlib.dir/src/main.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/tinybitlib.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/tinybitlib.dir/src/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/main.cpp.o -MF CMakeFiles/tinybitlib.dir/src/main.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/main.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/main.cpp
 
 CMakeFiles/tinybitlib.dir/src/main.cpp.i: cmake_force
@@ -173,7 +145,7 @@ CMakeFiles/tinybitlib.dir/src/main.cpp.s: cmake_force
 CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
 CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/models/transformer.cpp
 CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o -MF CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/models/transformer.cpp
 
 CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.i: cmake_force
@@ -184,47 +156,27 @@ CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/models/transformer.cpp -o CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.s
 
-CMakeFiles/tinybitlib.dir/src/tensor.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
-CMakeFiles/tinybitlib.dir/src/tensor.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/tensor.cpp
-CMakeFiles/tinybitlib.dir/src/tensor.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/tinybitlib.dir/src/tensor.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/tensor.cpp.o -MF CMakeFiles/tinybitlib.dir/src/tensor.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/tensor.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/tensor.cpp
-
-CMakeFiles/tinybitlib.dir/src/tensor.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tinybitlib.dir/src/tensor.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/hasnainsikora/Projects/tinyBit/src/tensor.cpp > CMakeFiles/tinybitlib.dir/src/tensor.cpp.i
-
-CMakeFiles/tinybitlib.dir/src/tensor.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/tensor.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/tensor.cpp -o CMakeFiles/tinybitlib.dir/src/tensor.cpp.s
-
 # Object files for target tinybitlib
 tinybitlib_OBJECTS = \
+"CMakeFiles/tinybitlib.dir/src/block.cpp.o" \
 "CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o" \
-"CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o" \
 "CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o" \
-"CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o" \
 "CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o" \
-"CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o" \
 "CMakeFiles/tinybitlib.dir/src/main.cpp.o" \
-"CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o" \
-"CMakeFiles/tinybitlib.dir/src/tensor.cpp.o"
+"CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o"
 
 # External object files for target tinybitlib
 tinybitlib_EXTERNAL_OBJECTS =
 
+libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/block.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o
-libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o
-libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o
-libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/main.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o
-libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/tensor.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/build.make
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX static library libtinybitlib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX static library libtinybitlib.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/tinybitlib.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tinybitlib.dir/link.txt --verbose=$(VERBOSE)
 

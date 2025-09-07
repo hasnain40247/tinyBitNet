@@ -155,6 +155,30 @@ tests/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 .PHONY : tests/fast
 
+src/block.o: src/block.cpp.o
+.PHONY : src/block.o
+
+# target to build an object file
+src/block.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/block.cpp.o
+.PHONY : src/block.cpp.o
+
+src/block.i: src/block.cpp.i
+.PHONY : src/block.i
+
+# target to preprocess a source file
+src/block.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/block.cpp.i
+.PHONY : src/block.cpp.i
+
+src/block.s: src/block.cpp.s
+.PHONY : src/block.s
+
+# target to generate assembly for a file
+src/block.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/block.cpp.s
+.PHONY : src/block.cpp.s
+
 src/layers/attention.o: src/layers/attention.cpp.o
 .PHONY : src/layers/attention.o
 
@@ -178,30 +202,6 @@ src/layers/attention.s: src/layers/attention.cpp.s
 src/layers/attention.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.s
 .PHONY : src/layers/attention.cpp.s
-
-src/layers/block.o: src/layers/block.cpp.o
-.PHONY : src/layers/block.o
-
-# target to build an object file
-src/layers/block.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o
-.PHONY : src/layers/block.cpp.o
-
-src/layers/block.i: src/layers/block.cpp.i
-.PHONY : src/layers/block.i
-
-# target to preprocess a source file
-src/layers/block.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/block.cpp.i
-.PHONY : src/layers/block.cpp.i
-
-src/layers/block.s: src/layers/block.cpp.s
-.PHONY : src/layers/block.s
-
-# target to generate assembly for a file
-src/layers/block.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/block.cpp.s
-.PHONY : src/layers/block.cpp.s
 
 src/layers/embedding.o: src/layers/embedding.cpp.o
 .PHONY : src/layers/embedding.o
@@ -227,30 +227,6 @@ src/layers/embedding.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.s
 .PHONY : src/layers/embedding.cpp.s
 
-src/layers/feedForward.o: src/layers/feedForward.cpp.o
-.PHONY : src/layers/feedForward.o
-
-# target to build an object file
-src/layers/feedForward.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o
-.PHONY : src/layers/feedForward.cpp.o
-
-src/layers/feedForward.i: src/layers/feedForward.cpp.i
-.PHONY : src/layers/feedForward.i
-
-# target to preprocess a source file
-src/layers/feedForward.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.i
-.PHONY : src/layers/feedForward.cpp.i
-
-src/layers/feedForward.s: src/layers/feedForward.cpp.s
-.PHONY : src/layers/feedForward.s
-
-# target to generate assembly for a file
-src/layers/feedForward.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.s
-.PHONY : src/layers/feedForward.cpp.s
-
 src/layers/layerNorm.o: src/layers/layerNorm.cpp.o
 .PHONY : src/layers/layerNorm.o
 
@@ -274,30 +250,6 @@ src/layers/layerNorm.s: src/layers/layerNorm.cpp.s
 src/layers/layerNorm.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.s
 .PHONY : src/layers/layerNorm.cpp.s
-
-src/layers/linear.o: src/layers/linear.cpp.o
-.PHONY : src/layers/linear.o
-
-# target to build an object file
-src/layers/linear.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o
-.PHONY : src/layers/linear.cpp.o
-
-src/layers/linear.i: src/layers/linear.cpp.i
-.PHONY : src/layers/linear.i
-
-# target to preprocess a source file
-src/layers/linear.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.i
-.PHONY : src/layers/linear.cpp.i
-
-src/layers/linear.s: src/layers/linear.cpp.s
-.PHONY : src/layers/linear.s
-
-# target to generate assembly for a file
-src/layers/linear.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.s
-.PHONY : src/layers/linear.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -349,30 +301,6 @@ src/models/transformer.s: src/models/transformer.cpp.s
 src/models/transformer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.s
 .PHONY : src/models/transformer.cpp.s
-
-src/tensor.o: src/tensor.cpp.o
-.PHONY : src/tensor.o
-
-# target to build an object file
-src/tensor.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tensor.cpp.o
-.PHONY : src/tensor.cpp.o
-
-src/tensor.i: src/tensor.cpp.i
-.PHONY : src/tensor.i
-
-# target to preprocess a source file
-src/tensor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tensor.cpp.i
-.PHONY : src/tensor.cpp.i
-
-src/tensor.s: src/tensor.cpp.s
-.PHONY : src/tensor.s
-
-# target to generate assembly for a file
-src/tensor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tensor.cpp.s
-.PHONY : src/tensor.cpp.s
 
 tests/test_embedding.o: tests/test_embedding.cpp.o
 .PHONY : tests/test_embedding.o
@@ -433,33 +361,24 @@ help:
 	@echo "... tests"
 	@echo "... tinybitlib"
 	@echo "... tinybitnet"
+	@echo "... src/block.o"
+	@echo "... src/block.i"
+	@echo "... src/block.s"
 	@echo "... src/layers/attention.o"
 	@echo "... src/layers/attention.i"
 	@echo "... src/layers/attention.s"
-	@echo "... src/layers/block.o"
-	@echo "... src/layers/block.i"
-	@echo "... src/layers/block.s"
 	@echo "... src/layers/embedding.o"
 	@echo "... src/layers/embedding.i"
 	@echo "... src/layers/embedding.s"
-	@echo "... src/layers/feedForward.o"
-	@echo "... src/layers/feedForward.i"
-	@echo "... src/layers/feedForward.s"
 	@echo "... src/layers/layerNorm.o"
 	@echo "... src/layers/layerNorm.i"
 	@echo "... src/layers/layerNorm.s"
-	@echo "... src/layers/linear.o"
-	@echo "... src/layers/linear.i"
-	@echo "... src/layers/linear.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 	@echo "... src/models/transformer.o"
 	@echo "... src/models/transformer.i"
 	@echo "... src/models/transformer.s"
-	@echo "... src/tensor.o"
-	@echo "... src/tensor.i"
-	@echo "... src/tensor.s"
 	@echo "... tests/test_embedding.o"
 	@echo "... tests/test_embedding.i"
 	@echo "... tests/test_embedding.s"

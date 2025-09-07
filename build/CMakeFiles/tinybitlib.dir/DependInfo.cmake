@@ -8,15 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/Users/hasnainsikora/Projects/tinyBit/src/block.cpp" "CMakeFiles/tinybitlib.dir/src/block.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/block.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/layers/attention.cpp" "CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o.d"
-  "/Users/hasnainsikora/Projects/tinyBit/src/layers/block.cpp" "CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/block.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/layers/embedding.cpp" "CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o.d"
-  "/Users/hasnainsikora/Projects/tinyBit/src/layers/feedForward.cpp" "CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/feedForward.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/layers/layerNorm.cpp" "CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o.d"
-  "/Users/hasnainsikora/Projects/tinyBit/src/layers/linear.cpp" "CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/main.cpp" "CMakeFiles/tinybitlib.dir/src/main.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/main.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/models/transformer.cpp" "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o.d"
-  "/Users/hasnainsikora/Projects/tinyBit/src/tensor.cpp" "CMakeFiles/tinybitlib.dir/src/tensor.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/tensor.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
