@@ -1,0 +1,174 @@
+#include "tensor.hpp"
+#include <iostream>
+#include <set>
+#include <algorithm>
+
+
+// Okay let's think about the constructor. I need it essentially to initialize grads 
+// IF the data is already initialized. I can do this using Xavier's intiialization.
+Tensor::Tensor(const Eigen::MatrixXd& data, bool requires_grad)
+    : data(data), requires_grad(requires_grad) {
+    if (requires_grad) {
+        // basically initializing my zero matrix
+        grad = Eigen::MatrixXd::Zero(data.rows(), data.cols());
+    }
+}
+
+// In the event that I just need the grad matrix to be initalized using rows and cols.
+Tensor::Tensor(int rows, int cols, bool requires_grad)
+    : data(Eigen::MatrixXd::Zero(rows, cols)), requires_grad(requires_grad) {
+    if (requires_grad) {
+        grad = Eigen::MatrixXd::Zero(rows, cols);
+    }
+}
+
+
+// Function to basically set my grads to 0s
+void Tensor::zero_grad() {
+    if (requires_grad) {
+        grad.setZero();
+    }
+}
+
+
+
+void Tensor::backward() {
+    if (!requires_grad) {
+        throw std::runtime_error("Cannot call backward on tensor that doesn't require grad");
+    }
+    
+    // Initialize gradient as ones for scalar or identity for matrix
+    Eigen::MatrixXd initial_grad = Eigen::MatrixXd::Ones(data.rows(), data.cols());
+    backward_impl(initial_grad); // beginning of the gradient
+}
+
+void Tensor::backward_impl(const Eigen::MatrixXd& upstream_grad) {
+    // Accumulate gradients just like pytroch
+    if (requires_grad) {
+        grad += upstream_grad;
+    }
+    
+    // Call backward function if exists. We need to set this during the forward pass
+    if (grad_fn) {
+        (*grad_fn)();
+    }
+}
+
+// Operations
+// Here is where we're actually storing the gradiernt formulas
+std::shared_ptr<Tensor> Tensor::add(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
+    
+    // okay so we have some result of c= a + b and we need to use a and b until this function uses it.
+    // add the data and if eithe rparents need gradient then so does the child obv
+    auto result = std::make_shared<Tensor>(a->data + b->data, 
+                                          a->requires_grad || b->requires_grad);
+    
+    if (result->requires_grad) {
+        // we need to know where the c comes from do we update it's dependencies.
+        result->dependencies = {a, b};
+        // imp: how do we know what grad function looks like? this is where we have that:
+        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+            if (a->requires_grad) {
+                a->backward_impl(result->grad); // send this along the edge of a 
+            }
+            if (b->requires_grad){
+                b->backward_impl(result->grad); // sending this along the edge of b
+            }
+        });
+    }
+    
+    return result;
+}
+
+
+std::shared_ptr<Tensor> Tensor::matmul(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
+    auto result = std::make_shared<Tensor>(a->data * b->data, 
+                                          a->requires_grad || b->requires_grad);
+
+    // actually compute the result
+    
+    if (result->requires_grad) {
+        result->dependencies = {a, b};
+        // again set the dependencies 
+        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+            if (a->requires_grad) {
+                // c wrt to a is just b
+                Eigen::MatrixXd grad_a = result->grad * b->data.transpose();
+                a->backward_impl(grad_a);
+            }
+            if (b->requires_grad) {
+                // c wrt to b is just a
+                Eigen::MatrixXd grad_b = a->data.transpose() * result->grad;
+                b->backward_impl(grad_b);
+            }
+        });
+    }
+    
+    return result;
+}
+
+
+std::shared_ptr<Tensor> Tensor::relu(std::shared_ptr<Tensor> x) {
+    Eigen::MatrixXd relu_data = x->data.unaryExpr([](double v){ 
+        return std::max(0.0, v); 
+    });
+    
+    auto result = std::make_shared<Tensor>(relu_data, x->requires_grad);
+    // basically the same thing we capture the relu. take each element v and apply a relu and then just pass it within the shared ptr
+    
+    if (result->requires_grad) {
+        result->dependencies = {x};
+        // only one dependency 
+        result->grad_fn = std::make_shared<std::function<void()>>([x, result]() {
+            if (x->requires_grad) {
+                // ReLU derivative is just 1 if x > 0, else 0
+                Eigen::MatrixXd relu_grad = x->data.unaryExpr([](double v){ 
+                    return v > 0.0 ? 1.0 : 0.0; 
+                });
+                // we need to apply that for each element v.
+                Eigen::MatrixXd grad_x = result->grad.cwiseProduct(relu_grad);
+                x->backward_impl(grad_x);
+            }
+        });
+    }
+    
+    return result;
+}
+
+// since this is a conveience operator it essntially cals a.operator(b) in this case there's a shared from this which has a reference to a and the other is the b
+std::shared_ptr<Tensor> Tensor::operator+(std::shared_ptr<Tensor> other) {
+    return add(shared_from_this(), other);
+}
+
+std::shared_ptr<Tensor> Tensor::mm(std::shared_ptr<Tensor> other) {
+    return matmul(shared_from_this(), other);
+}
+
+void Tensor::shape() const {
+    std::cout << "Shape: [" << data.rows() << ", " << data.cols() << "]" << std::endl;
+}
+
+
+
+void Tensor::get_data() const {
+    std::cout << "Data:" << std::endl;
+    std::cout << data << std::endl;
+}
+
+void Tensor::get_grad() const {
+    if (requires_grad) {
+        std::cout << "Grad:" << std::endl;
+        std::cout << grad << std::endl;
+    } else {
+        std::cout << "Grad: (requires_grad=false)" << std::endl;
+    }
+}
+
+void Tensor::get() const {
+    std::cout << "=== Tensor ===" << std::endl;
+    get_data();
+    get_grad();
+    shape();
+    std::cout << "requires_grad: " << (requires_grad ? "true" : "false") << std::endl;
+    std::cout << "==============" << std::endl;
+}

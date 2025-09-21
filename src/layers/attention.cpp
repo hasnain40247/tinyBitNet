@@ -4,8 +4,6 @@
 #include "layers/attention.hpp"
 #include <random>
 
-
-
 /**
 * Constructor.
 * Initializes weight matrices with random values. I am sticking with Xavier's random initialization.
