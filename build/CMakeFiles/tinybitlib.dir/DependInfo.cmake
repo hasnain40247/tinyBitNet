@@ -17,6 +17,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/hasnainsikora/Projects/tinyBit/src/models/feedForward.cpp" "CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/models/transformer.cpp" "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/tensor.cpp" "CMakeFiles/tinybitlib.dir/src/tensor.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/tensor.cpp.o.d"
+  "/Users/hasnainsikora/Projects/tinyBit/src/tokenizer.cpp" "CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

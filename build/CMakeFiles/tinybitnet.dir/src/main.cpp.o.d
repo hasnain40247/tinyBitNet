@@ -1159,4 +1159,5 @@ CMakeFiles/tinybitnet.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
   /Users/hasnainsikora/Projects/tinyBit/include/layers/linear.hpp \
   /Users/hasnainsikora/Projects/tinyBit/include/layers/optimizer.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
+  /Users/hasnainsikora/Projects/tinyBit/include/layers/attention.hpp

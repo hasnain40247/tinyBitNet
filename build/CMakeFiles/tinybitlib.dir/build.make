@@ -198,6 +198,20 @@ CMakeFiles/tinybitlib.dir/src/tensor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/tensor.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/tensor.cpp -o CMakeFiles/tinybitlib.dir/src/tensor.cpp.s
 
+CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o: CMakeFiles/tinybitlib.dir/flags.make
+CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o: /Users/hasnainsikora/Projects/tinyBit/src/tokenizer.cpp
+CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o: CMakeFiles/tinybitlib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o -MF CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o.d -o CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o -c /Users/hasnainsikora/Projects/tinyBit/src/tokenizer.cpp
+
+CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/hasnainsikora/Projects/tinyBit/src/tokenizer.cpp > CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.i
+
+CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hasnainsikora/Projects/tinyBit/src/tokenizer.cpp -o CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.s
+
 # Object files for target tinybitlib
 tinybitlib_OBJECTS = \
 "CMakeFiles/tinybitlib.dir/src/block.cpp.o" \
@@ -208,7 +222,8 @@ tinybitlib_OBJECTS = \
 "CMakeFiles/tinybitlib.dir/src/main.cpp.o" \
 "CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o" \
 "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o" \
-"CMakeFiles/tinybitlib.dir/src/tensor.cpp.o"
+"CMakeFiles/tinybitlib.dir/src/tensor.cpp.o" \
+"CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o"
 
 # External object files for target tinybitlib
 tinybitlib_EXTERNAL_OBJECTS =
@@ -222,9 +237,10 @@ libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/main.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/tensor.cpp.o
+libtinybitlib.a: CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/build.make
 libtinybitlib.a: CMakeFiles/tinybitlib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX static library libtinybitlib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX static library libtinybitlib.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/tinybitlib.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tinybitlib.dir/link.txt --verbose=$(VERBOSE)
 

@@ -1,8 +1,11 @@
 #include <Eigen/Dense>
 #include <vector>
+#include <iostream>
 #include <cmath>
 #include "layers/attention.hpp"
 #include <random>
+
+#include "tensor.hpp"
 
 /**
 * Constructor.
@@ -19,29 +22,35 @@
 MultiHeadAttention::MultiHeadAttention(int embed_dim_, int num_heads_)
         : embed_dim(embed_dim_), num_heads(num_heads_) 
     {
-        // ensure divisibility
-        if (embed_dim % num_heads != 0) {
-            throw std::invalid_argument("embed_dim must be divisible by num_heads");
-        }
-
-        head_dim = embed_dim / num_heads; // this is essentially dk
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::normal_distribution<> dist(0.0, 1.0 / std::sqrt(embed_dim));
-
-        auto init = [&](Eigen::MatrixXd& M) {
-            M = Eigen::MatrixXd(embed_dim, embed_dim);
-            for (int i = 0; i < embed_dim; i++) {
-                for (int j = 0; j < embed_dim; j++) {
-                    M(i, j) = dist(gen);
-                }
-            }
-        };
-        init(W_Q);
-        init(W_K);
-        init(W_V);
-        init(W_O);
+       if (embed_dim % num_heads != 0) {
+        throw std::invalid_argument("embed_dim must be divisible by num_heads");
     }
+    head_dim = embed_dim / num_heads;
+
+    initialize_parameters();
+    }
+
+
+void MultiHeadAttention::initialize_parameters() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::normal_distribution<> dist(0.0, 1.0 / std::sqrt(embed_dim));
+
+    auto init_tensor = [&](int rows, int cols) {
+        Eigen::MatrixXd data(rows, cols);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                data(i, j) = dist(gen);
+            }
+        }
+        return std::make_shared<Tensor>(data, true); // trainable
+    };
+
+    W_Q = init_tensor(embed_dim, embed_dim);
+    W_K = init_tensor(embed_dim, embed_dim);
+    W_V = init_tensor(embed_dim, embed_dim);
+    W_O = init_tensor(embed_dim, embed_dim);
+}
 
 /**
 * Row-wise softmax over the last dimension.
@@ -71,48 +80,40 @@ Eigen::MatrixXd MultiHeadAttention::softmax(const Eigen::MatrixXd& x) {
 * embed size and then slice them into subsequent blocks. For each head, we calculate the score -> mask -> weight with values and store it.
 * These outputs are then concatenated and multiplied with the weight matrix.
 */
-Eigen::MatrixXd MultiHeadAttention::forward(const Eigen::MatrixXd& X, const Eigen::MatrixXd* mask) {
-        int seq_len = X.rows();
+std::shared_ptr<Tensor> MultiHeadAttention::forward(std::shared_ptr<Tensor> x, std::shared_ptr<Tensor> mask) {
+    int seq_len = x->data.rows();
+    auto Q = x->mm(W_Q); // [seq_len, embed_dim]
+    auto K = x->mm(W_K); // [seq_len, embed_dim]
+    auto V = x->mm(W_V); // [seq_len, embed_dim]
 
-        // Linear projections
-        Eigen::MatrixXd Q = X * W_Q; // [seq_len, embed_dim]
-        Eigen::MatrixXd K = X * W_K; // [seq_len, embed_dim]
-        Eigen::MatrixXd V = X * W_V; // [seq_len, embed_dim]
+    std::vector<std::shared_ptr<Tensor>> head_outputs;
 
-        // Process each head
-        std::vector<Eigen::MatrixXd> head_outputs;
-        for (int h = 0; h < num_heads; h++) {
-            // slice per head
-            Eigen::MatrixXd Q_h = Q.middleCols(h * head_dim, head_dim); // [seq_len, head_dim]
-            Eigen::MatrixXd K_h = K.middleCols(h * head_dim, head_dim); // [seq_len, head_dim]
-            Eigen::MatrixXd V_h = V.middleCols(h * head_dim, head_dim); // [seq_len, head_dim]
 
-            // Scores QK/root(head_dim)
-            Eigen::MatrixXd scores = (Q_h * K_h.transpose()) / std::sqrt((double)head_dim); // [seq_len, seq_len]
+    for (int h = 0; h < num_heads; h++) {
+        auto Q_h = Q->slice(h * head_dim, head_dim); // [seq_len, head_dim]
+        auto K_h = K->slice(h * head_dim, head_dim); // [seq_len, head_dim]
+        auto V_h = V->slice(h * head_dim, head_dim); // [seq_len, head_dim]
 
-            // Masking 
-            if (mask) {
-                // mask: [seq_len, seq_len]
-                scores += *mask;
-            }
+        // Attention scores: [seq_len, seq_len]
+        auto scores = Q_h->mm(K_h->transpose())->scale(1.0 / std::sqrt((double)head_dim));
 
-            // Softmax over the masked matrix
-            Eigen::MatrixXd attn = softmax(scores); // [seq_len, seq_len]
-
-            // Weighted sum
-            Eigen::MatrixXd head = attn * V_h; // [seq_len, head_dim]
-
-            head_outputs.push_back(head);
+        if (mask != nullptr) {
+            scores = scores->operator+(mask);  // add mask if provided
         }
 
-        // Concat heads
-        Eigen::MatrixXd concat(seq_len, embed_dim);
-        for (int h = 0; h < num_heads; h++) {
-            concat.middleCols(h * head_dim, head_dim) = head_outputs[h];
-        }
+        // Softmax along rows
+        auto attn = scores->softmax();
 
-        // Final linear projection
-        return concat * W_O; // [seq_len, embed_dim]
+        // Weighted sum: [seq_len, head_dim]
+        auto head = attn->mm(V_h);
+        head_outputs.push_back(head);
     }
+
+    auto concat = Tensor::concat_cols(head_outputs);
+
+ 
+    auto output = concat->mm(W_O); // [seq_len, embed_dim]
+    return output;
+}
 
    

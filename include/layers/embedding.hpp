@@ -10,9 +10,19 @@ public:
     
     std::shared_ptr<Tensor> forward(const std::vector<int>& input_indices);
     
-    std::vector<std::shared_ptr<Tensor>> parameters();
+    std::vector<std::shared_ptr<Tensor>> parameters() const;
     void zero_grad();
-    void get() const;
+   
+
+    std::shared_ptr<Tensor> token_embeddings;
+    std::shared_ptr<Tensor> positional_embeddings_tensor;  
+    Eigen::MatrixXd positional_embeddings_matrix; 
+
+
+
+    void get_parameters() const;
+    void get_gradients() const;
+    void get_layer_info() const;
 
 private:
     int vocab_size;
@@ -20,12 +30,7 @@ private:
     int max_seq;
     bool use_sinusoidal;
     
-    // Token embeddings - always trainable
-    std::shared_ptr<Tensor> token_embeddings;
-    
-    // Positional embeddings - depends on sinusoidal flag
-    std::shared_ptr<Tensor> positional_embeddings_tensor;  // Trainable (when sinusoidal=false)
-    Eigen::MatrixXd positional_embeddings_matrix;          // Fixed (when sinusoidal=true)
-    
     Eigen::MatrixXd positional_embedding(int max_seq, int embed_dim);
+
+    void initialize_parameters();
 };

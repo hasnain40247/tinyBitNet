@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o.d"
   "CMakeFiles/tinybitlib.dir/src/tensor.cpp.o"
   "CMakeFiles/tinybitlib.dir/src/tensor.cpp.o.d"
+  "CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o"
+  "CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o.d"
   "libtinybitlib.a"
   "libtinybitlib.pdb"
 )

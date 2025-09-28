@@ -374,6 +374,30 @@ src/tensor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tensor.cpp.s
 .PHONY : src/tensor.cpp.s
 
+src/tokenizer.o: src/tokenizer.cpp.o
+.PHONY : src/tokenizer.o
+
+# target to build an object file
+src/tokenizer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o
+.PHONY : src/tokenizer.cpp.o
+
+src/tokenizer.i: src/tokenizer.cpp.i
+.PHONY : src/tokenizer.i
+
+# target to preprocess a source file
+src/tokenizer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.i
+.PHONY : src/tokenizer.cpp.i
+
+src/tokenizer.s: src/tokenizer.cpp.s
+.PHONY : src/tokenizer.s
+
+# target to generate assembly for a file
+src/tokenizer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.s
+.PHONY : src/tokenizer.cpp.s
+
 tests/test_embedding.o: tests/test_embedding.cpp.o
 .PHONY : tests/test_embedding.o
 
@@ -460,6 +484,9 @@ help:
 	@echo "... src/tensor.o"
 	@echo "... src/tensor.i"
 	@echo "... src/tensor.s"
+	@echo "... src/tokenizer.o"
+	@echo "... src/tokenizer.i"
+	@echo "... src/tokenizer.s"
 	@echo "... tests/test_embedding.o"
 	@echo "... tests/test_embedding.i"
 	@echo "... tests/test_embedding.s"

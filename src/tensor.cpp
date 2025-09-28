@@ -57,9 +57,9 @@ void Tensor::backward_impl(const Eigen::MatrixXd& upstream_grad) {
 // Operations
 // Here is where we're actually storing the gradiernt formulas
 std::shared_ptr<Tensor> Tensor::add(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
+
     
-    // okay so we have some result of c= a + b and we need to use a and b until this function uses it.
-    // add the data and if eithe rparents need gradient then so does the child obv
+
     auto result = std::make_shared<Tensor>(a->data + b->data, 
                                           a->requires_grad || b->requires_grad);
     
@@ -107,6 +107,82 @@ std::shared_ptr<Tensor> Tensor::matmul(std::shared_ptr<Tensor> a, std::shared_pt
     return result;
 }
 
+//auto Q_h = Q->slice_cols(h * head_dim, head_dim);
+
+std::shared_ptr<Tensor> Tensor::slice_cols(std::shared_ptr<Tensor> a,int start_col, int width) {
+
+    Eigen::MatrixXd sliced = a->data.block(0, start_col, a->data.rows(), width);
+
+    auto result = std::make_shared<Tensor>(sliced,a->requires_grad);
+    if (result->requires_grad) {
+        result->dependencies = {a};
+        result->grad_fn = std::make_shared<std::function<void()>>(
+            [a, result, start_col, width]() {
+                if (a->requires_grad) {
+           
+                    Eigen::MatrixXd grad_parent = Eigen::MatrixXd::Zero(
+                        a->data.rows(), a->data.cols());
+                    grad_parent.block(0, start_col,
+                                      a->data.rows(), width) = result->grad;
+
+                    a->backward_impl(grad_parent);
+                }
+            }
+        );
+    }
+    return result;
+}
+
+
+// Concatenate a vector of tensors along columns (axis=1)
+std::shared_ptr<Tensor> Tensor::concat_cols(const std::vector<std::shared_ptr<Tensor>>& tensors) {
+    if (tensors.empty()) {
+        throw std::runtime_error("concat_cols: empty tensor list");
+    }
+
+    int total_cols = 0;
+    int rows = tensors[0]->data.rows();
+    bool requires_grad = false;
+
+    // Compute total columns and check if any tensor requires grad
+    for (auto& t : tensors) {
+        if (t->data.rows() != rows) {
+            throw std::runtime_error("concat_cols: all tensors must have the same number of rows");
+        }
+        total_cols += t->data.cols();
+        requires_grad = requires_grad || t->requires_grad;
+    }
+
+    // Allocate the concatenated data
+    Eigen::MatrixXd concat_data(rows, total_cols);
+    int col_offset = 0;
+    for (auto& t : tensors) {
+        concat_data.block(0, col_offset, rows, t->data.cols()) = t->data;
+        col_offset += t->data.cols();
+    }
+
+    auto result = std::make_shared<Tensor>(concat_data, requires_grad);
+
+    // Set up grad_fn to slice the gradient back to each tensor
+    if (requires_grad) {
+        result->dependencies = tensors;
+        result->grad_fn = std::make_shared<std::function<void()>>([tensors, result]() {
+            int col_offset = 0;
+            for (auto& t : tensors) {
+                if (t->requires_grad) {
+                    Eigen::MatrixXd grad_slice = result->grad.block(0, col_offset, t->data.rows(), t->data.cols());
+                    t->backward_impl(grad_slice);
+                }
+                col_offset += t->data.cols();
+            }
+        });
+    }
+
+    return result;
+}
+
+
+
 
 std::shared_ptr<Tensor> Tensor::relu(std::shared_ptr<Tensor> x) {
     Eigen::MatrixXd relu_data = x->data.unaryExpr([](double v){ 
@@ -135,6 +211,81 @@ std::shared_ptr<Tensor> Tensor::relu(std::shared_ptr<Tensor> x) {
     return result;
 }
 
+std::shared_ptr<Tensor> Tensor::transpose_mat(std::shared_ptr<Tensor> a) {
+
+    auto result = std::make_shared<Tensor>(a->data.transpose(), a->requires_grad);
+
+    if (result->requires_grad) {
+        result->dependencies = {a};
+        result->grad_fn = std::make_shared<std::function<void()>>(
+            [a, result]() {
+                if (a->requires_grad) {
+                    a->backward_impl(result->grad.transpose());
+                }
+            }
+        );
+    }
+
+    return result;
+}
+
+
+
+// Y= X/scale => dY/dX
+std::shared_ptr<Tensor> Tensor::scale_mat(std::shared_ptr<Tensor> a, double scaler) {
+    auto result = std::make_shared<Tensor>(a->data * scaler, a->requires_grad);
+
+    if (result->requires_grad) {
+        result->dependencies = {a};
+        result->grad_fn = std::make_shared<std::function<void()>>(
+            [a, result, scaler]() {
+                if (a->requires_grad) {
+                    a->backward_impl(result->grad * scaler);
+                }
+            }
+        );
+    }
+
+    return result;
+}
+
+
+
+std::shared_ptr<Tensor> Tensor::softmax_mat(std::shared_ptr<Tensor> a) {
+
+  Eigen::MatrixXd out(a->data.rows(), a->data.cols());
+    for (int i = 0; i < a->data.rows(); ++i) {
+        double max_val = a->data.row(i).maxCoeff();
+        Eigen::VectorXd exps = (a->data.row(i).array() - max_val).exp();
+        out.row(i) = exps / exps.sum();
+    }
+
+    
+    auto result = std::make_shared<Tensor>(out, a->requires_grad);
+
+    // Step 3: define grad_fn if needed
+    if (result->requires_grad) {
+        result->dependencies = {a};
+        result->grad_fn = std::make_shared<std::function<void()>>([a, result]() {
+            if (a->requires_grad) {
+         
+                Eigen::MatrixXd grad_input(a->data.rows(), a->data.cols());
+                for (int i = 0; i < a->data.rows(); ++i) {
+                    Eigen::VectorXd y = result->data.row(i);
+                    // Eigen::MatrixXd jac = y.asDiagonal() - y * y.transpose();
+                    Eigen::MatrixXd jac = y.asDiagonal().toDenseMatrix() - y * y.transpose();
+
+                    grad_input.row(i) = (jac * result->grad.row(i).transpose()).transpose();
+                }
+                a->backward_impl(grad_input);
+            }
+        });
+    }
+
+    return result;
+}
+
+
 // since this is a conveience operator it essntially cals a.operator(b) in this case there's a shared from this which has a reference to a and the other is the b
 std::shared_ptr<Tensor> Tensor::operator+(std::shared_ptr<Tensor> other) {
     return add(shared_from_this(), other);
@@ -144,6 +295,27 @@ std::shared_ptr<Tensor> Tensor::mm(std::shared_ptr<Tensor> other) {
     return matmul(shared_from_this(), other);
 }
 
+std::shared_ptr<Tensor> Tensor::softmax() {
+    return softmax_mat(shared_from_this());
+}
+
+std::shared_ptr<Tensor> Tensor::slice(int start_col, int width) {
+    return slice_cols(shared_from_this(), start_col, width);
+}
+
+std::shared_ptr<Tensor> Tensor::concat(const std::vector<std::shared_ptr<Tensor>>& tensors) {
+  
+    return concat_cols(tensors);
+
+}
+
+std::shared_ptr<Tensor> Tensor::transpose(){
+    return transpose_mat(shared_from_this());
+}
+
+std::shared_ptr<Tensor> Tensor::scale(double scaler){
+    return scale_mat(shared_from_this(),scaler);
+}
 void Tensor::shape() const {
     std::cout << "Shape: [" << data.rows() << ", " << data.cols() << "]" << std::endl;
 }

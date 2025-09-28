@@ -11,6 +11,7 @@ public:
     
     void zero_grad();
     std::vector<std::shared_ptr<Tensor>> parameters() const;
+    
 
     void get_parameters() const;
     void get_gradients() const;
