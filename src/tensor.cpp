@@ -81,6 +81,31 @@ std::shared_ptr<Tensor> Tensor::add(std::shared_ptr<Tensor> a, std::shared_ptr<T
 }
 
 
+std::shared_ptr<Tensor> Tensor::add_broadcast(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
+
+    // Broadcast addition: each row of xW gets b added to it
+    auto result = std::make_shared<Tensor>(
+        a->data.rowwise() + b->data.row(0), 
+        a->requires_grad || b->requires_grad
+    );
+    
+    if (result->requires_grad) {
+        result->dependencies = {a, b};
+        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+            if (a->requires_grad) {
+                a->backward_impl(result->grad);
+            }
+            if (b->requires_grad) {
+                // Sum gradients across batch dimension for bias
+                Eigen::MatrixXd b_grad = result->grad.colwise().sum();
+                b->backward_impl(b_grad);
+            }
+        });
+    }
+return result;
+    }
+
+
 std::shared_ptr<Tensor> Tensor::matmul(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
     auto result = std::make_shared<Tensor>(a->data * b->data, 
                                           a->requires_grad || b->requires_grad);
@@ -289,6 +314,10 @@ std::shared_ptr<Tensor> Tensor::softmax_mat(std::shared_ptr<Tensor> a) {
 // since this is a conveience operator it essntially cals a.operator(b) in this case there's a shared from this which has a reference to a and the other is the b
 std::shared_ptr<Tensor> Tensor::operator+(std::shared_ptr<Tensor> other) {
     return add(shared_from_this(), other);
+}
+
+std::shared_ptr<Tensor> Tensor::addB(std::shared_ptr<Tensor> other) {
+    return add_broadcast(shared_from_this(), other);
 }
 
 std::shared_ptr<Tensor> Tensor::mm(std::shared_ptr<Tensor> other) {

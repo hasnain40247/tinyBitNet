@@ -5,6 +5,8 @@
 #include <iostream>
 #include "tensor.hpp"
 #include "layers/attention.hpp"
+#include "layers/linear.hpp"
+
 
 int main() {
 

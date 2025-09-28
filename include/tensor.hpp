@@ -26,6 +26,9 @@ public:
     
     // Atleast fromn what I'm reading each operation will need to have some reference
     static std::shared_ptr<Tensor> add(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b);
+    static std::shared_ptr<Tensor> add_broadcast(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b);
+
+    
     static std::shared_ptr<Tensor> matmul(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b);
     static std::shared_ptr<Tensor> relu(std::shared_ptr<Tensor> x);
     static std::shared_ptr<Tensor> slice_cols(std::shared_ptr<Tensor> a,int start_col, int width);
@@ -40,6 +43,8 @@ public:
     
     // Just overloading these so that I can use the above functions in a more readable way
     std::shared_ptr<Tensor> operator+(std::shared_ptr<Tensor> other);
+    std::shared_ptr<Tensor> addB(std::shared_ptr<Tensor> other);
+
     std::shared_ptr<Tensor> mm(std::shared_ptr<Tensor> other);
     std::shared_ptr<Tensor> slice(int start_col, int width);
     std::shared_ptr<Tensor> concat(const std::vector<std::shared_ptr<Tensor>>& tensors);
