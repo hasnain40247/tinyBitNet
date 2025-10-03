@@ -155,125 +155,125 @@ tests/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 .PHONY : tests/fast
 
-src/block.o: src/block.cpp.o
-.PHONY : src/block.o
+src/components/attention.o: src/components/attention.cpp.o
+.PHONY : src/components/attention.o
 
 # target to build an object file
-src/block.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/block.cpp.o
-.PHONY : src/block.cpp.o
+src/components/attention.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/attention.cpp.o
+.PHONY : src/components/attention.cpp.o
 
-src/block.i: src/block.cpp.i
-.PHONY : src/block.i
+src/components/attention.i: src/components/attention.cpp.i
+.PHONY : src/components/attention.i
 
 # target to preprocess a source file
-src/block.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/block.cpp.i
-.PHONY : src/block.cpp.i
+src/components/attention.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/attention.cpp.i
+.PHONY : src/components/attention.cpp.i
 
-src/block.s: src/block.cpp.s
-.PHONY : src/block.s
+src/components/attention.s: src/components/attention.cpp.s
+.PHONY : src/components/attention.s
 
 # target to generate assembly for a file
-src/block.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/block.cpp.s
-.PHONY : src/block.cpp.s
+src/components/attention.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/attention.cpp.s
+.PHONY : src/components/attention.cpp.s
 
-src/layers/attention.o: src/layers/attention.cpp.o
-.PHONY : src/layers/attention.o
+src/components/embedding.o: src/components/embedding.cpp.o
+.PHONY : src/components/embedding.o
 
 # target to build an object file
-src/layers/attention.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o
-.PHONY : src/layers/attention.cpp.o
+src/components/embedding.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/embedding.cpp.o
+.PHONY : src/components/embedding.cpp.o
 
-src/layers/attention.i: src/layers/attention.cpp.i
-.PHONY : src/layers/attention.i
+src/components/embedding.i: src/components/embedding.cpp.i
+.PHONY : src/components/embedding.i
 
 # target to preprocess a source file
-src/layers/attention.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.i
-.PHONY : src/layers/attention.cpp.i
+src/components/embedding.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/embedding.cpp.i
+.PHONY : src/components/embedding.cpp.i
 
-src/layers/attention.s: src/layers/attention.cpp.s
-.PHONY : src/layers/attention.s
+src/components/embedding.s: src/components/embedding.cpp.s
+.PHONY : src/components/embedding.s
 
 # target to generate assembly for a file
-src/layers/attention.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.s
-.PHONY : src/layers/attention.cpp.s
+src/components/embedding.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/embedding.cpp.s
+.PHONY : src/components/embedding.cpp.s
 
-src/layers/embedding.o: src/layers/embedding.cpp.o
-.PHONY : src/layers/embedding.o
+src/components/layerNorm.o: src/components/layerNorm.cpp.o
+.PHONY : src/components/layerNorm.o
 
 # target to build an object file
-src/layers/embedding.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o
-.PHONY : src/layers/embedding.cpp.o
+src/components/layerNorm.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.o
+.PHONY : src/components/layerNorm.cpp.o
 
-src/layers/embedding.i: src/layers/embedding.cpp.i
-.PHONY : src/layers/embedding.i
+src/components/layerNorm.i: src/components/layerNorm.cpp.i
+.PHONY : src/components/layerNorm.i
 
 # target to preprocess a source file
-src/layers/embedding.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.i
-.PHONY : src/layers/embedding.cpp.i
+src/components/layerNorm.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.i
+.PHONY : src/components/layerNorm.cpp.i
 
-src/layers/embedding.s: src/layers/embedding.cpp.s
-.PHONY : src/layers/embedding.s
+src/components/layerNorm.s: src/components/layerNorm.cpp.s
+.PHONY : src/components/layerNorm.s
 
 # target to generate assembly for a file
-src/layers/embedding.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.s
-.PHONY : src/layers/embedding.cpp.s
+src/components/layerNorm.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.s
+.PHONY : src/components/layerNorm.cpp.s
 
-src/layers/layerNorm.o: src/layers/layerNorm.cpp.o
-.PHONY : src/layers/layerNorm.o
+src/components/linear.o: src/components/linear.cpp.o
+.PHONY : src/components/linear.o
 
 # target to build an object file
-src/layers/layerNorm.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o
-.PHONY : src/layers/layerNorm.cpp.o
+src/components/linear.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/linear.cpp.o
+.PHONY : src/components/linear.cpp.o
 
-src/layers/layerNorm.i: src/layers/layerNorm.cpp.i
-.PHONY : src/layers/layerNorm.i
+src/components/linear.i: src/components/linear.cpp.i
+.PHONY : src/components/linear.i
 
 # target to preprocess a source file
-src/layers/layerNorm.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.i
-.PHONY : src/layers/layerNorm.cpp.i
+src/components/linear.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/linear.cpp.i
+.PHONY : src/components/linear.cpp.i
 
-src/layers/layerNorm.s: src/layers/layerNorm.cpp.s
-.PHONY : src/layers/layerNorm.s
+src/components/linear.s: src/components/linear.cpp.s
+.PHONY : src/components/linear.s
 
 # target to generate assembly for a file
-src/layers/layerNorm.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.s
-.PHONY : src/layers/layerNorm.cpp.s
+src/components/linear.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/linear.cpp.s
+.PHONY : src/components/linear.cpp.s
 
-src/layers/linear.o: src/layers/linear.cpp.o
-.PHONY : src/layers/linear.o
+src/data/tensor.o: src/data/tensor.cpp.o
+.PHONY : src/data/tensor.o
 
 # target to build an object file
-src/layers/linear.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o
-.PHONY : src/layers/linear.cpp.o
+src/data/tensor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.o
+.PHONY : src/data/tensor.cpp.o
 
-src/layers/linear.i: src/layers/linear.cpp.i
-.PHONY : src/layers/linear.i
+src/data/tensor.i: src/data/tensor.cpp.i
+.PHONY : src/data/tensor.i
 
 # target to preprocess a source file
-src/layers/linear.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.i
-.PHONY : src/layers/linear.cpp.i
+src/data/tensor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.i
+.PHONY : src/data/tensor.cpp.i
 
-src/layers/linear.s: src/layers/linear.cpp.s
-.PHONY : src/layers/linear.s
+src/data/tensor.s: src/data/tensor.cpp.s
+.PHONY : src/data/tensor.s
 
 # target to generate assembly for a file
-src/layers/linear.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.s
-.PHONY : src/layers/linear.cpp.s
+src/data/tensor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.s
+.PHONY : src/data/tensor.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -350,29 +350,29 @@ src/models/transformer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.s
 .PHONY : src/models/transformer.cpp.s
 
-src/tensor.o: src/tensor.cpp.o
-.PHONY : src/tensor.o
+src/models/transformerBlock.o: src/models/transformerBlock.cpp.o
+.PHONY : src/models/transformerBlock.o
 
 # target to build an object file
-src/tensor.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tensor.cpp.o
-.PHONY : src/tensor.cpp.o
+src/models/transformerBlock.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/models/transformerBlock.cpp.o
+.PHONY : src/models/transformerBlock.cpp.o
 
-src/tensor.i: src/tensor.cpp.i
-.PHONY : src/tensor.i
+src/models/transformerBlock.i: src/models/transformerBlock.cpp.i
+.PHONY : src/models/transformerBlock.i
 
 # target to preprocess a source file
-src/tensor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tensor.cpp.i
-.PHONY : src/tensor.cpp.i
+src/models/transformerBlock.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/models/transformerBlock.cpp.i
+.PHONY : src/models/transformerBlock.cpp.i
 
-src/tensor.s: src/tensor.cpp.s
-.PHONY : src/tensor.s
+src/models/transformerBlock.s: src/models/transformerBlock.cpp.s
+.PHONY : src/models/transformerBlock.s
 
 # target to generate assembly for a file
-src/tensor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/tensor.cpp.s
-.PHONY : src/tensor.cpp.s
+src/models/transformerBlock.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/models/transformerBlock.cpp.s
+.PHONY : src/models/transformerBlock.cpp.s
 
 src/tokenizer.o: src/tokenizer.cpp.o
 .PHONY : src/tokenizer.o
@@ -457,21 +457,21 @@ help:
 	@echo "... tests"
 	@echo "... tinybitlib"
 	@echo "... tinybitnet"
-	@echo "... src/block.o"
-	@echo "... src/block.i"
-	@echo "... src/block.s"
-	@echo "... src/layers/attention.o"
-	@echo "... src/layers/attention.i"
-	@echo "... src/layers/attention.s"
-	@echo "... src/layers/embedding.o"
-	@echo "... src/layers/embedding.i"
-	@echo "... src/layers/embedding.s"
-	@echo "... src/layers/layerNorm.o"
-	@echo "... src/layers/layerNorm.i"
-	@echo "... src/layers/layerNorm.s"
-	@echo "... src/layers/linear.o"
-	@echo "... src/layers/linear.i"
-	@echo "... src/layers/linear.s"
+	@echo "... src/components/attention.o"
+	@echo "... src/components/attention.i"
+	@echo "... src/components/attention.s"
+	@echo "... src/components/embedding.o"
+	@echo "... src/components/embedding.i"
+	@echo "... src/components/embedding.s"
+	@echo "... src/components/layerNorm.o"
+	@echo "... src/components/layerNorm.i"
+	@echo "... src/components/layerNorm.s"
+	@echo "... src/components/linear.o"
+	@echo "... src/components/linear.i"
+	@echo "... src/components/linear.s"
+	@echo "... src/data/tensor.o"
+	@echo "... src/data/tensor.i"
+	@echo "... src/data/tensor.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -481,9 +481,9 @@ help:
 	@echo "... src/models/transformer.o"
 	@echo "... src/models/transformer.i"
 	@echo "... src/models/transformer.s"
-	@echo "... src/tensor.o"
-	@echo "... src/tensor.i"
-	@echo "... src/tensor.s"
+	@echo "... src/models/transformerBlock.o"
+	@echo "... src/models/transformerBlock.i"
+	@echo "... src/models/transformerBlock.s"
 	@echo "... src/tokenizer.o"
 	@echo "... src/tokenizer.i"
 	@echo "... src/tokenizer.s"

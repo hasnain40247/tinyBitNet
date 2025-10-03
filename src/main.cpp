@@ -1,43 +1,63 @@
 
 
-#include "layers/feedForward.hpp"
-#include "layers/optimizer.hpp"
+#include "components/embedding.hpp"
+#include "models/transformerBlock.hpp"
+#include "components/layerNorm.hpp"
 #include <iostream>
-#include "tensor.hpp"
-#include "layers/attention.hpp"
-#include "layers/linear.hpp"
+#include "data/tensor.hpp"
+#include "components/attention.hpp"
+#include "components/linear.hpp"
+#include "models/feedForward.hpp"
+#include "models/transformer.hpp"
+#include "optimizer/optimizer.hpp"
+#include "criterion/mse.hpp"
+
+
+
+
 
 
 int main() {
-
-    // Create an Embedding layer; the constructor will call initialize_parameters()
-    // Embedding embed(10, 8, 5, false);
-    // std::vector<int> input_indices = {2, 5, 3, 2, 7};
-
-    // // Forward pass
-    // std::shared_ptr<Tensor> output = embed.forward(input_indices);
-
-
-  
-
-    // return 0;
-
-    int seq_len   = 4;
+int vocab_size = 10;
     int embed_dim = 8;
+    int max_seq = 5;
     int num_heads = 2;
+    int ffn_hidden = 16;
+    int num_layers = 1;
 
-    MultiHeadAttention mha(embed_dim, num_heads);
+    // ===== 1️⃣ Create model =====
+    Transformer model(vocab_size, embed_dim, max_seq, num_heads, ffn_hidden, num_layers);
 
-    // --- Build a dummy input Tensor ---
-    Eigen::MatrixXd x_data(seq_len, embed_dim);
-    x_data.setRandom();  // values in [-1,1)
-    auto x = std::make_shared<Tensor>(x_data, /*requires_grad=*/true);
+    // ===== 2️⃣ Collect params & optimizer =====
+    SGD optim(model.parameters(), 0.01);
 
-    std::cout << "Input Tensor X (" << seq_len << " x " << embed_dim << "):\n";
-    x->get_data();
-    std::cout << "\n";
+    // ===== 3️⃣ Dummy data =====
+    std::vector<int> input_indices = {2, 5, 3, 2, 7};
+    Eigen::MatrixXd target_data(5, embed_dim);
+    target_data.setRandom();   // dummy target
+    auto targets = std::make_shared<Tensor>(target_data, false);
 
-    
-    
+    MSELoss criterion;
+
+    // ===== 4️⃣ Training loop =====
+    for (int epoch = 0; epoch < 2; ++epoch) {
+        // forward
+        auto preds = model.forward(input_indices);
+
+        // loss
+        auto loss = criterion.forward(preds, targets);
+
+        // // backward
+        loss->backward();
+
+        // // update
+        optim.step();
+        optim.zero_grad();
+
+        // log
+        std::cout << "Epoch " << epoch
+                  << " | Loss: " << loss->data(0,0) << std::endl;
+    }
+
     return 0;
 }

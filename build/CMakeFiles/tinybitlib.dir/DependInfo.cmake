@@ -8,15 +8,15 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/hasnainsikora/Projects/tinyBit/src/block.cpp" "CMakeFiles/tinybitlib.dir/src/block.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/block.cpp.o.d"
-  "/Users/hasnainsikora/Projects/tinyBit/src/layers/attention.cpp" "CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/attention.cpp.o.d"
-  "/Users/hasnainsikora/Projects/tinyBit/src/layers/embedding.cpp" "CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/embedding.cpp.o.d"
-  "/Users/hasnainsikora/Projects/tinyBit/src/layers/layerNorm.cpp" "CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/layerNorm.cpp.o.d"
-  "/Users/hasnainsikora/Projects/tinyBit/src/layers/linear.cpp" "CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/layers/linear.cpp.o.d"
+  "/Users/hasnainsikora/Projects/tinyBit/src/components/attention.cpp" "CMakeFiles/tinybitlib.dir/src/components/attention.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/attention.cpp.o.d"
+  "/Users/hasnainsikora/Projects/tinyBit/src/components/embedding.cpp" "CMakeFiles/tinybitlib.dir/src/components/embedding.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/embedding.cpp.o.d"
+  "/Users/hasnainsikora/Projects/tinyBit/src/components/layerNorm.cpp" "CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.o.d"
+  "/Users/hasnainsikora/Projects/tinyBit/src/components/linear.cpp" "CMakeFiles/tinybitlib.dir/src/components/linear.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/linear.cpp.o.d"
+  "/Users/hasnainsikora/Projects/tinyBit/src/data/tensor.cpp" "CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/main.cpp" "CMakeFiles/tinybitlib.dir/src/main.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/main.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/models/feedForward.cpp" "CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/models/transformer.cpp" "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o.d"
-  "/Users/hasnainsikora/Projects/tinyBit/src/tensor.cpp" "CMakeFiles/tinybitlib.dir/src/tensor.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/tensor.cpp.o.d"
+  "/Users/hasnainsikora/Projects/tinyBit/src/models/transformerBlock.cpp" "CMakeFiles/tinybitlib.dir/src/models/transformerBlock.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/models/transformerBlock.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/tokenizer.cpp" "CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/tokenizer.cpp.o.d"
   )
 
