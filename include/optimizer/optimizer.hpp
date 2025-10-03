@@ -15,14 +15,12 @@ private:
     double learning_rate;
 };
 
-// Implementation
 SGD::SGD(const std::vector<std::shared_ptr<Tensor>>& parameters, double lr)
     : parameters(parameters), learning_rate(lr) {}
 
 void SGD::step() {
     for (auto& param : parameters) {
         if (param->requires_grad) {
-            // param = param - lr * grad
             param->data -= learning_rate * param->grad;
         }
     }

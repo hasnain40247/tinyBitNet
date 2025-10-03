@@ -175,11 +175,9 @@ void Embedding::get_parameters() const {
 void Embedding::get_gradients() const {
     std::cout << "=== Embedding Gradients ===" << std::endl;
     
-    // Token embeddings gradient
     std::cout << "\n--- Token Embeddings Grad ---" << std::endl;
     token_embeddings->get_grad();
     
-    // Positional embeddings gradient, only if trainable
     if (!use_sinusoidal && positional_embeddings_tensor) {
         std::cout << "\n--- Positional Embeddings Grad ---" << std::endl;
         positional_embeddings_tensor->get_grad();

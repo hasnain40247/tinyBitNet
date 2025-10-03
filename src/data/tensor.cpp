@@ -4,17 +4,14 @@
 #include <algorithm>
 
 
-// Okay let's think about the constructor. I need it essentially to initialize grads 
-// IF the data is already initialized. I can do this using Xavier's intiialization.
+
 Tensor::Tensor(const Eigen::MatrixXd& data, bool requires_grad)
     : data(data), requires_grad(requires_grad) {
     if (requires_grad) {
-        // basically initializing my zero matrix
         grad = Eigen::MatrixXd::Zero(data.rows(), data.cols());
     }
 }
 
-// In the event that I just need the grad matrix to be initalized using rows and cols.
 Tensor::Tensor(int rows, int cols, bool requires_grad)
     : data(Eigen::MatrixXd::Zero(rows, cols)), requires_grad(requires_grad) {
     if (requires_grad) {
@@ -23,7 +20,6 @@ Tensor::Tensor(int rows, int cols, bool requires_grad)
 }
 
 
-// Function to basically set my grads to 0s
 void Tensor::zero_grad() {
     if (requires_grad) {
         grad.setZero();
@@ -37,18 +33,15 @@ void Tensor::backward() {
         throw std::runtime_error("Cannot call backward on tensor that doesn't require grad");
     }
     
-    // Initialize gradient as ones for scalar or identity for matrix
     Eigen::MatrixXd initial_grad = Eigen::MatrixXd::Ones(data.rows(), data.cols());
-    backward_impl(initial_grad); // beginning of the gradient
+    backward_impl(initial_grad);
 }
 
 void Tensor::backward_impl(const Eigen::MatrixXd& upstream_grad) {
-    // Accumulate gradients just like pytroch
     if (requires_grad) {
         grad += upstream_grad;
     }
     
-    // Call backward function if exists. We need to set this during the forward pass
     if (grad_fn) {
         (*grad_fn)();
     }

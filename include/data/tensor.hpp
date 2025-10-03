@@ -62,7 +62,6 @@ public:
 
 
     
-    // imma need some getter.
     void shape() const;
     void get_data() const;
     void get_grad() const;

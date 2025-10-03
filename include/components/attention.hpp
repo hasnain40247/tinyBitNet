@@ -2,7 +2,7 @@
 #include <Eigen/Dense>
 #include <vector>
 #include <memory>
-#include "../data/tensor.hpp"  // assuming you have your Tensor class here
+#include "../data/tensor.hpp"  
 
 /**
  * Multi-Head Attention.

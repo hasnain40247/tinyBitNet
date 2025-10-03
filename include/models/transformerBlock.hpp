@@ -6,13 +6,7 @@
 #include "../models/feedForward.hpp"
 #include "../data/tensor.hpp"
 
-/**
- * TransformerBlock
- * ----------------
- * Implements a single transformer encoder block:
- *   - Pre-LayerNorm + MultiHeadAttention + Residual
- *   - Pre-LayerNorm + FeedForward + Residual
- */
+
 class TransformerBlock {
 public:
     /**
@@ -30,14 +24,10 @@ public:
      */
     std::shared_ptr<Tensor> forward(std::shared_ptr<Tensor> x);
 
-    /**
-     * Collect all trainable parameters
-     */
+
     std::vector<std::shared_ptr<Tensor>> parameters() const;
 
-    /**
-     * Zero all gradients
-     */
+ 
     void zero_grad();
 
 private:

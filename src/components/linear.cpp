@@ -18,14 +18,14 @@ void Linear::initialize_parameters() {
     for (int i = 0; i < W_data.size(); ++i) {
         W_data.data()[i] = dist(gen);
     }
-    W = std::make_shared<Tensor>(W_data, true); // requires_grad = true
+    W = std::make_shared<Tensor>(W_data, true); 
     
 
     Eigen::MatrixXd b_data(1, out_features);
     for (int i = 0; i < out_features; ++i) {
         b_data(0, i) = dist(gen);
     }
-    b = std::make_shared<Tensor>(b_data, true); // requires_grad = true
+    b = std::make_shared<Tensor>(b_data, true); 
 }
 
 std::shared_ptr<Tensor> Linear::forward(std::shared_ptr<Tensor> x) {
@@ -33,7 +33,7 @@ std::shared_ptr<Tensor> Linear::forward(std::shared_ptr<Tensor> x) {
     // W: [in_features, out_features]
     // b: [1, out_features] (will broadcast)
     
-    auto xW = x->mm(W);  // [seq_len, out_features]
+    auto xW = x->mm(W);  
     auto result=xW->addB(b);    
     return result;
 }
