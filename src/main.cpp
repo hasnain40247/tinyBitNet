@@ -11,6 +11,13 @@
 #include "models/transformer.hpp"
 #include "optimizer/optimizer.hpp"
 #include "criterion/mse.hpp"
+#include "criterion/crossEntropy.hpp"
+
+#include <iostream>
+#include <memory>
+#include <Eigen/Dense>
+#include "components/bitLinear.hpp"
+#include "data/tensor.hpp"
 
 
 int main() {
@@ -21,22 +28,28 @@ int vocab_size = 10;
     int ffn_hidden = 16;
     int num_layers = 2;
 
-    Transformer model(vocab_size, embed_dim, max_seq, num_heads, ffn_hidden, num_layers);
+    Transformer model(vocab_size, embed_dim, max_seq, num_heads, ffn_hidden, num_layers,true);
 
     SGD optim(model.parameters(), 0.01);
 
-    std::vector<int> input_indices = {2, 5, 3, 2, 7};
-    Eigen::MatrixXd target_data(5, embed_dim);
-    target_data.setRandom(); 
-    auto targets = std::make_shared<Tensor>(target_data, false);
-    MSELoss criterion;
+    std::vector<int> input_indices = {2, 5, 3, 2};  
+    std::vector<int> target_indices = {5, 3, 2, 7}; 
+
+    CrossEntropyLoss criterion;
+
     for (int epoch = 0; epoch < 2; ++epoch) {
         optim.zero_grad();
-        auto preds = model.forward(input_indices);
-        auto loss = criterion.forward(preds, targets);
-        loss->backward();
+
+        auto preds = model.forward(input_indices);  
+
+        auto loss = criterion.forward(preds, target_indices);  
+        loss->backward(); 
+
         optim.step();
+
+        std::cout << "Epoch " << epoch << " | Loss: " << loss->data(0,0) << std::endl;
     }
+
 
     return 0;
 }

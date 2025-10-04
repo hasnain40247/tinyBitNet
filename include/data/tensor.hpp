@@ -33,12 +33,18 @@ public:
     
     static std::shared_ptr<Tensor> matmul(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b);
     static std::shared_ptr<Tensor> relu(std::shared_ptr<Tensor> x);
+    static std::shared_ptr<Tensor> gelu(std::shared_ptr<Tensor> x);
+
     static std::shared_ptr<Tensor> slice_cols(std::shared_ptr<Tensor> a,int start_col, int width);
     static std::shared_ptr<Tensor> concat_cols(const std::vector<std::shared_ptr<Tensor>>& tensors);
 
     static std::shared_ptr<Tensor> transpose_mat(std::shared_ptr<Tensor> a);
     static std::shared_ptr<Tensor> scale_mat(std::shared_ptr<Tensor> a,double scaler);
     static std::shared_ptr<Tensor> softmax_mat(std::shared_ptr<Tensor> a);
+    static std::shared_ptr<Tensor> quantize_tensor(std::shared_ptr<Tensor> a,double Qb, double eps);
+    static std::shared_ptr<Tensor> binarize_tensor(std::shared_ptr<Tensor> a);
+
+
 
 
 
@@ -57,6 +63,10 @@ public:
     std::shared_ptr<Tensor> transpose();
     std::shared_ptr<Tensor> scale(double scaler);
     std::shared_ptr<Tensor> softmax();
+    std::shared_ptr<Tensor> quantize(double Qb, double eps);
+    std::shared_ptr<Tensor> binarize();
+
+
 
 
 

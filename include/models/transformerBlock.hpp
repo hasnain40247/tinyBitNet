@@ -15,7 +15,7 @@ public:
      * @param num_heads : number of attention heads
      * @param ffn_hidden : hidden size for feed-forward
      */
-    TransformerBlock(int embed_dim, int num_heads, int ffn_hidden);
+    TransformerBlock(int embed_dim, int num_heads, int ffn_hidden,bool use_bitLinear_=false);
 
     /**
      * Forward pass
@@ -34,4 +34,5 @@ private:
     LayerNorm ln1, ln2, ln3;
     MultiHeadAttention mha;
     FeedForward ffn;
+
 };

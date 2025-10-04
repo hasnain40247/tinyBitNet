@@ -999,8 +999,10 @@ CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o: \
   /Users/hasnainsikora/Projects/tinyBit/include/models/../components/layerNorm.hpp \
   /Users/hasnainsikora/Projects/tinyBit/include/models/../components/../data/tensor.hpp \
   /Users/hasnainsikora/Projects/tinyBit/include/models/../components/attention.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/components/linear.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/abstract/baseLinear.hpp \
   /Users/hasnainsikora/Projects/tinyBit/include/models/../models/feedForward.hpp \
   /Users/hasnainsikora/Projects/tinyBit/include/models/../models/../data/tensor.hpp \
-  /Users/hasnainsikora/Projects/tinyBit/include/models/../models/../components/linear.hpp \
-  /Users/hasnainsikora/Projects/tinyBit/include/models/../models/../components/../data/tensor.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/components/bitLinear.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/components/layerNorm.hpp \
   /Users/hasnainsikora/Projects/tinyBit/include/models/../data/tensor.hpp

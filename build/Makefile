@@ -179,6 +179,30 @@ src/components/attention.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/attention.cpp.s
 .PHONY : src/components/attention.cpp.s
 
+src/components/bitLinear.o: src/components/bitLinear.cpp.o
+.PHONY : src/components/bitLinear.o
+
+# target to build an object file
+src/components/bitLinear.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/bitLinear.cpp.o
+.PHONY : src/components/bitLinear.cpp.o
+
+src/components/bitLinear.i: src/components/bitLinear.cpp.i
+.PHONY : src/components/bitLinear.i
+
+# target to preprocess a source file
+src/components/bitLinear.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/bitLinear.cpp.i
+.PHONY : src/components/bitLinear.cpp.i
+
+src/components/bitLinear.s: src/components/bitLinear.cpp.s
+.PHONY : src/components/bitLinear.s
+
+# target to generate assembly for a file
+src/components/bitLinear.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/components/bitLinear.cpp.s
+.PHONY : src/components/bitLinear.cpp.s
+
 src/components/embedding.o: src/components/embedding.cpp.o
 .PHONY : src/components/embedding.o
 
@@ -460,6 +484,9 @@ help:
 	@echo "... src/components/attention.o"
 	@echo "... src/components/attention.i"
 	@echo "... src/components/attention.s"
+	@echo "... src/components/bitLinear.o"
+	@echo "... src/components/bitLinear.i"
+	@echo "... src/components/bitLinear.s"
 	@echo "... src/components/embedding.o"
 	@echo "... src/components/embedding.i"
 	@echo "... src/components/embedding.s"

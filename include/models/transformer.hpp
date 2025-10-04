@@ -22,7 +22,7 @@ public:
      * @param num_layers : number of TransformerBlocks to stack
      */
     Transformer(int vocab_size, int embed_dim, int max_seq,
-                int num_heads, int ffn_hidden, int num_layers);
+                int num_heads, int ffn_hidden, int num_layers, bool use_bitlinear_=false);
 
     std::shared_ptr<Tensor> forward(const std::vector<int>& input_indices);
 
@@ -34,4 +34,7 @@ public:
 private:
     std::shared_ptr<Embedding> embed_layer;
     std::vector<std::shared_ptr<TransformerBlock>> blocks;
+    std::shared_ptr<BaseLinear> lm_head;  
+    bool use_bitlinear;
+
 };

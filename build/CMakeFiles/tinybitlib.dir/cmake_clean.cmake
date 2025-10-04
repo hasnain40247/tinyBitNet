@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/tinybitlib.dir/src/components/attention.cpp.o"
   "CMakeFiles/tinybitlib.dir/src/components/attention.cpp.o.d"
+  "CMakeFiles/tinybitlib.dir/src/components/bitLinear.cpp.o"
+  "CMakeFiles/tinybitlib.dir/src/components/bitLinear.cpp.o.d"
   "CMakeFiles/tinybitlib.dir/src/components/embedding.cpp.o"
   "CMakeFiles/tinybitlib.dir/src/components/embedding.cpp.o.d"
   "CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.o"

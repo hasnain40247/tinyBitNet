@@ -108,8 +108,8 @@ tinybitnet/
 * [x] Multi-head attention, feed-forward, layer norm, embedding implemented
 * [x] Autograd engine with backward pass
 * [x] MSE loss and SGD optimizer
-* [ ] Cross-entropy loss not implemented
-* [ ] BitLinear / 1-bit weight support not implemented
+* [x] Cross-entropy loss not implemented
+* [x] BitLinear / 1-bit weight support not implemented
 * [ ] Tokenizer and dataset reader not implemented
 
 ---

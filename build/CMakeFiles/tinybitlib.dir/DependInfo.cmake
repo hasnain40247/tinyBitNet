@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/hasnainsikora/Projects/tinyBit/src/components/attention.cpp" "CMakeFiles/tinybitlib.dir/src/components/attention.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/attention.cpp.o.d"
+  "/Users/hasnainsikora/Projects/tinyBit/src/components/bitLinear.cpp" "CMakeFiles/tinybitlib.dir/src/components/bitLinear.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/bitLinear.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/components/embedding.cpp" "CMakeFiles/tinybitlib.dir/src/components/embedding.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/embedding.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/components/layerNorm.cpp" "CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/components/linear.cpp" "CMakeFiles/tinybitlib.dir/src/components/linear.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/linear.cpp.o.d"

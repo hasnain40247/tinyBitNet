@@ -1,9 +1,12 @@
 #include "models/transformerBlock.hpp"
 
 // Constructor is already handled via member initializer list in the header
-TransformerBlock::TransformerBlock(int embed_dim, int num_heads, int ffn_hidden)
-    : ln1(embed_dim), ln2(embed_dim), ln3(embed_dim),
-      mha(embed_dim, num_heads), ffn(embed_dim, ffn_hidden)
+TransformerBlock::TransformerBlock(int embed_dim, int num_heads, int ffn_hidden, bool use_bitLinear_)
+    : ln1(embed_dim),
+      ln2(embed_dim),
+      ln3(embed_dim),
+      mha(embed_dim, num_heads, use_bitLinear_),
+      ffn(embed_dim, ffn_hidden, use_bitLinear_)
 {
 }
 

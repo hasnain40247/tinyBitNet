@@ -229,6 +229,40 @@ std::shared_ptr<Tensor> Tensor::relu(std::shared_ptr<Tensor> x) {
     return result;
 }
 
+std::shared_ptr<Tensor> Tensor::gelu(std::shared_ptr<Tensor> x) {
+    Eigen::MatrixXd gelu_data = x->data.unaryExpr([](double v) {
+        double c = std::sqrt(2.0 / M_PI);
+        double inner = c * (v + 0.044715 * std::pow(v, 3));
+        return 0.5 * v * (1.0 + std::tanh(inner));
+    });
+
+    auto result = std::make_shared<Tensor>(gelu_data, x->requires_grad);
+
+    if (result->requires_grad) {
+        result->dependencies = {x};
+        result->grad_fn = std::make_shared<std::function<void()>>([x, result]() {
+            if (x->requires_grad) {
+                // derivative of gelu approximation
+                Eigen::MatrixXd grad_gelu = x->data.unaryExpr([](double v) {
+                    double c = std::sqrt(2.0 / M_PI);
+                    double inner = c * (v + 0.044715 * std::pow(v, 3));
+                    double tanh_inner = std::tanh(inner);
+                    double sech2 = 1.0 - tanh_inner * tanh_inner;
+
+                    double term1 = 0.5 * (1.0 + tanh_inner);
+                    double term2 = 0.5 * v * sech2 * c * (1 + 3 * 0.044715 * v * v);
+                    return term1 + term2;
+                });
+                Eigen::MatrixXd grad_x = result->grad.cwiseProduct(grad_gelu);
+                x->backward_impl(grad_x);
+            }
+        });
+    }
+
+    return result;
+}
+
+
 std::shared_ptr<Tensor> Tensor::transpose_mat(std::shared_ptr<Tensor> a) {
 
     auto result = std::make_shared<Tensor>(a->data.transpose(), a->requires_grad);
@@ -331,6 +365,31 @@ std::shared_ptr<Tensor> Tensor::mul_broadcast(std::shared_ptr<Tensor> a, std::sh
 }
 
 
+std::shared_ptr<Tensor> Tensor::quantize_tensor(std::shared_ptr<Tensor> a,double Qb, double eps) {
+    double gamma = a->data.cwiseAbs().maxCoeff();
+    double eta = a->data.minCoeff();
+
+    Eigen::MatrixXd scaled = ((a->data.array() - eta) * (Qb / (gamma + 1e-8))).matrix();
+    Eigen::MatrixXd clipped = scaled.array().min(Qb - eps).max(eps);
+
+    auto result = std::make_shared<Tensor>(clipped, a->requires_grad);
+
+    if (result->requires_grad) {
+        result->dependencies = {a};
+        result->grad_fn = std::make_shared<std::function<void()>>([a, result]() {
+            if (a->requires_grad) {
+                a->backward_impl(result->grad);
+            }
+        });
+    }
+
+    return result;
+}
+
+
+
+
+
 // since this is a conveience operator it essntially cals a.operator(b) in this case there's a shared from this which has a reference to a and the other is the b
 std::shared_ptr<Tensor> Tensor::operator+(std::shared_ptr<Tensor> other) {
     return add(shared_from_this(), other);
@@ -343,6 +402,8 @@ std::shared_ptr<Tensor> Tensor::addB(std::shared_ptr<Tensor> other) {
 std::shared_ptr<Tensor> Tensor::mm(std::shared_ptr<Tensor> other) {
     return matmul(shared_from_this(), other);
 }
+
+
 
 std::shared_ptr<Tensor> Tensor::softmax() {
     return softmax_mat(shared_from_this());
@@ -368,6 +429,34 @@ std::shared_ptr<Tensor> Tensor::scale(double scaler){
 
 std::shared_ptr<Tensor> Tensor::mulB(std::shared_ptr<Tensor> other) {
     return mul_broadcast(shared_from_this(), other);
+}
+
+std::shared_ptr<Tensor> Tensor::quantize(double Qb, double eps) {
+    return quantize_tensor(shared_from_this(), Qb, eps);
+}
+std::shared_ptr<Tensor> Tensor::binarize() {
+    return binarize_tensor(shared_from_this());
+}
+
+std::shared_ptr<Tensor> Tensor::binarize_tensor(std::shared_ptr<Tensor> a) {
+    double alpha = a->data.mean(); 
+    Eigen::MatrixXd centered = a->data.array() - alpha;
+    Eigen::MatrixXd signed_data = centered.unaryExpr([](double v) { return v >= 0 ? 1.0 : -1.0; });
+
+    auto result = std::make_shared<Tensor>(signed_data, a->requires_grad);
+
+    if (result->requires_grad) {
+        result->dependencies = {a};
+        result->grad_fn = std::make_shared<std::function<void()>>([a, result]() {
+            if (a->requires_grad) {
+                a->backward_impl(result->grad);
+            }
+        });
+    }
+
+    
+
+    return result;
 }
 
 

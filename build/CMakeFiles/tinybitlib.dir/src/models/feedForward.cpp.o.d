@@ -993,6 +993,10 @@ CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o: \
   /opt/homebrew/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/set \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
-  /Users/hasnainsikora/Projects/tinyBit/include/models/../components/linear.hpp \
-  /Users/hasnainsikora/Projects/tinyBit/include/models/../components/../data/tensor.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/components/linear.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/components/../data/tensor.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/abstract/baseLinear.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/data/tensor.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/components/bitLinear.hpp \
+  /Users/hasnainsikora/Projects/tinyBit/include/components/layerNorm.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream
