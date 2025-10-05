@@ -6,6 +6,7 @@
 **TinyBitNet** is a minimal Transformer implementation in C++ built from scratch. It includes a core transformer block, autograd engine, and basic training utilities for educational purposes and experimentation.
 
 ---
+<img src="assets/arch.png" >
 
 ## Features
 
