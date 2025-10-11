@@ -5,11 +5,14 @@
 #include <functional>
 #include <set>   
 
+enum class Device { CPU, GPU };
+
 class Tensor : public std::enable_shared_from_this<Tensor>{
 public:
     // We need an eigen double matrix to store the actual data but also one that stores the grad
     Eigen::MatrixXd data;
     Eigen::MatrixXd grad;
+    Device device; 
     
     // we obv need a flag like pytorch to set the grad as true
     bool requires_grad;

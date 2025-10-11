@@ -5,19 +5,15 @@
 
 
 
-Tensor::Tensor(const Eigen::MatrixXd& data, bool requires_grad)
-    : data(data), requires_grad(requires_grad) {
-    if (requires_grad) {
-        grad = Eigen::MatrixXd::Zero(data.rows(), data.cols());
+ Tensor::Tensor(const Eigen::MatrixXd& data, bool requires_grad = false, Device device = Device::CPU)
+        : data(data), requires_grad(requires_grad), device(device) {
+        if (requires_grad) grad = Eigen::MatrixXd::Zero(data.rows(), data.cols());
     }
-}
 
-Tensor::Tensor(int rows, int cols, bool requires_grad)
-    : data(Eigen::MatrixXd::Zero(rows, cols)), requires_grad(requires_grad) {
-    if (requires_grad) {
-        grad = Eigen::MatrixXd::Zero(rows, cols);
+Tensor::Tensor(int rows, int cols, bool requires_grad = false, Device device = Device::CPU)
+        : data(Eigen::MatrixXd::Zero(rows, cols)), requires_grad(requires_grad), device(device) {
+        if (requires_grad) grad = Eigen::MatrixXd::Zero(rows, cols);
     }
-}
 
 
 void Tensor::zero_grad() {
@@ -122,6 +118,50 @@ std::shared_ptr<Tensor> Tensor::matmul(std::shared_ptr<Tensor> a, std::shared_pt
         });
     }
     
+    return result;
+}
+
+
+std::shared_ptr<Tensor> Tensor::matmul2(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
+    Eigen::MatrixXd out(a->data.rows(), b->data.cols());
+
+    if (a->device == Device::CPU) {
+        out = a->data * b->data; 
+    } else if (a->device == Device::CUDA) {
+        CudaOps::matmul(a->data.data(), b->data.data(), out.data(),
+                        a->data.rows(), b->data.cols(), a->data.cols());
+    } else {
+        throw std::runtime_error("Unsupported device");
+    }
+
+    auto result = std::make_shared<Tensor>(out, a->requires_grad || b->requires_grad, a->device);
+
+    if (result->requires_grad) {
+        result->dependencies = {a, b};
+        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+            Eigen::MatrixXd grad_a(a->data.rows(), a->data.cols());
+            Eigen::MatrixXd grad_b(b->data.rows(), b->data.cols());
+
+            if (a->requires_grad) {
+                if (a->device == Device::CPU)
+                    grad_a = result->grad * b->data.transpose();
+                else
+                    CudaOps::matmul_backward(result->grad.data(), b->data.data(), grad_a.data(),
+                                             a->data.rows(), b->data.cols(), a->data.cols(), "A");
+                a->backward_impl(grad_a);
+            }
+
+            if (b->requires_grad) {
+                if (b->device == Device::CPU)
+                    grad_b = a->data.transpose() * result->grad;
+                else
+                    CudaOps::matmul_backward(a->data.data(), result->grad.data(), grad_b.data(),
+                                             a->data.rows(), b->data.cols(), a->data.cols(), "B");
+                b->backward_impl(grad_b);
+            }
+        });
+    }
+
     return result;
 }
 
