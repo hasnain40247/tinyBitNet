@@ -41,3 +41,37 @@ void CudaOps::matmul(const double* h_A, const double* h_B, double* h_C, int M, i
     cudaFree(d_B);
     cudaFree(d_C);
 }
+
+
+__global__ void add_naive_kernel(const double* A, const double* B, double* C, int size) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < size) {
+        C[idx] = A[idx] + B[idx];
+    }
+}
+
+
+void CudaOps::add(const double* h_A, const double* h_B, double* h_C, int rows, int cols) {
+    int size = rows * cols;
+    size_t bytes = size * sizeof(double);
+
+    double *d_A, *d_B, *d_C;
+    cudaMalloc(&d_A, bytes);
+    cudaMalloc(&d_B, bytes);
+    cudaMalloc(&d_C, bytes);
+
+    cudaMemcpy(d_A, h_A, bytes, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_B, h_B, bytes, cudaMemcpyHostToDevice);
+
+    const int BLOCK_SIZE = 256;
+    int numBlocks = (size + BLOCK_SIZE - 1) / BLOCK_SIZE;
+
+    add_naive_kernel<<<numBlocks, BLOCK_SIZE>>>(d_A, d_B, d_C, size);
+    cudaDeviceSynchronize();
+
+    cudaMemcpy(h_C, d_C, bytes, cudaMemcpyDeviceToHost);
+
+    cudaFree(d_A);
+    cudaFree(d_B);
+    cudaFree(d_C);
+}
