@@ -300,24 +300,34 @@ std::shared_ptr<Tensor> Tensor::relu(std::shared_ptr<Tensor> x) {
     return result;
 }
 
-
 std::shared_ptr<Tensor> Tensor::gelu(std::shared_ptr<Tensor> x) {
-    Eigen::MatrixXd gelu_data = x->data.unaryExpr([](double v) {
-        double c = std::sqrt(2.0 / M_PI);
-        double inner = c * (v + 0.044715 * std::pow(v, 3));
-        return 0.5 * v * (1.0 + std::tanh(inner));
-    });
+    Eigen::MatrixXd out(x->data.rows(), x->data.cols());
 
-    auto result = std::make_shared<Tensor>(gelu_data, x->requires_grad);
+    if (x->device == Device::CPU) {
+        out = x->data.unaryExpr([](double v) {
+            double c = std::sqrt(2.0 / M_PI);
+            double inner = c * (v + 0.044715 * v * v * v);  
+            return 0.5 * v * (1.0 + std::tanh(inner));
+        });
+    } else if (x->device == Device::CUDA) {
+        CudaOps::gelu(x->data.data(), out.data(), x->data.size());
+    } else {
+        throw std::runtime_error("Unsupported device");
+    }
+
+    auto result = std::make_shared<Tensor>(out, x->requires_grad, x->device);
 
     if (result->requires_grad) {
         result->dependencies = {x};
         result->grad_fn = std::make_shared<std::function<void()>>([x, result]() {
-            if (x->requires_grad) {
-                // derivative of gelu approximation
+            if (!x->requires_grad) return;
+
+            Eigen::MatrixXd grad_x(x->data.rows(), x->data.cols());
+
+            if (x->device == Device::CPU) {
                 Eigen::MatrixXd grad_gelu = x->data.unaryExpr([](double v) {
                     double c = std::sqrt(2.0 / M_PI);
-                    double inner = c * (v + 0.044715 * std::pow(v, 3));
+                    double inner = c * (v + 0.044715 * v * v * v);
                     double tanh_inner = std::tanh(inner);
                     double sech2 = 1.0 - tanh_inner * tanh_inner;
 
@@ -325,9 +335,12 @@ std::shared_ptr<Tensor> Tensor::gelu(std::shared_ptr<Tensor> x) {
                     double term2 = 0.5 * v * sech2 * c * (1 + 3 * 0.044715 * v * v);
                     return term1 + term2;
                 });
-                Eigen::MatrixXd grad_x = result->grad.cwiseProduct(grad_gelu);
-                x->backward_impl(grad_x);
+                grad_x = result->grad.cwiseProduct(grad_gelu);
+            } else if (x->device == Device::CUDA) {
+                CudaOps::gelu_backward(x->data.data(), result->grad.data(), grad_x.data(), x->data.size());
             }
+
+            x->backward_impl(grad_x);
         });
     }
 
@@ -336,23 +349,37 @@ std::shared_ptr<Tensor> Tensor::gelu(std::shared_ptr<Tensor> x) {
 
 
 std::shared_ptr<Tensor> Tensor::transpose_mat(std::shared_ptr<Tensor> a) {
+    Eigen::MatrixXd out(a->data.cols(), a->data.rows());
 
-    auto result = std::make_shared<Tensor>(a->data.transpose(), a->requires_grad);
+    if (a->device == Device::CPU) {
+        out = a->data.transpose();
+    } else if (a->device == Device::CUDA) {
+        CudaOps::transpose(a->data.data(), out.data(), a->data.rows(), a->data.cols());
+    } else {
+        throw std::runtime_error("Unsupported device");
+    }
+
+    auto result = std::make_shared<Tensor>(out, a->requires_grad, a->device);
 
     if (result->requires_grad) {
         result->dependencies = {a};
-        result->grad_fn = std::make_shared<std::function<void()>>(
-            [a, result]() {
-                if (a->requires_grad) {
-                    a->backward_impl(result->grad.transpose());
+        result->grad_fn = std::make_shared<std::function<void()>>([a, result]() {
+            if (a->requires_grad) {
+                Eigen::MatrixXd grad_a(a->data.rows(), a->data.cols());
+
+                if (a->device == Device::CPU) {
+                    grad_a = result->grad.transpose();
+                } else {
+                    CudaOps::transpose_backward(result->grad.data(), grad_a.data(), a->data.rows(), a->data.cols());
                 }
+
+                a->backward_impl(grad_a);
             }
-        );
+        });
     }
 
     return result;
 }
-
 
 
 // Y= X/scale => dY/dX

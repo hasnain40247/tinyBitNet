@@ -451,3 +451,78 @@ void CudaOps::gelu_backward(const double* h_A, const double* h_dOut, double* h_d
     cudaFree(d_dX);
 }
 
+
+
+
+
+
+void CudaOps::transpose(const double* h_A, double* h_C, int M, int N) {
+    //op= C=transpose(X) X= MxN | C=N*M
+    double *d_A, *d_C;
+
+    size_t size_A = M * N * sizeof(double);
+    size_t size_C = N * M * sizeof(double);
+
+    double *d_dA, *d_dC;
+    cudaMalloc(&d_dA, size_A);
+    cudaMalloc(&d_dC, size_C);
+
+
+    cudaMemcpy(d_A, h_A, size_A, cudaMemcpyHostToDevice);
+
+
+    LaunchConfig cfg = make_launch_2d(M,N);
+    transpose_forward_kernel<<<cfg.grid, cfg.block>>>(d_A, d_C, n);
+    cudaDeviceSynchronize(); 
+
+    cudaMemcpy(h_C, d_C, bytes, cudaMemcpyDeviceToHost);
+
+    cudaFree(d_A);
+    cudaFree(d_C);
+}
+
+__global__ void transpose_forward_kernel(
+    const double* A, double* C, int M,int N) {
+    int row = blockIdx.y * blockDim.y + threadIdx.y;
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+
+
+    if (row < M && col < N) {
+        C[col * M + row] = A[row * N + col];  
+    }
+
+
+}
+
+
+__global__ void transpose_backward_kernel(
+    const double* dOut,   
+    double* dX,           
+    int M, int N)          
+{
+    int row = blockIdx.y * blockDim.y + threadIdx.y;
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (row < M && col < N) {
+        dX[row * N + col] = dOut[col * M + row]; 
+    }
+}
+
+void CudaOps::transpose_backward(const double* h_dOut, double* h_dX, int M, int N) {
+    size_t size = M * N * sizeof(double);
+
+    double *d_dOut, *d_dX;
+    cudaMalloc(&d_dOut, size);
+    cudaMalloc(&d_dX, size);
+
+    cudaMemcpy(d_dOut, h_dOut, size, cudaMemcpyHostToDevice);
+
+    LaunchConfig cfg = make_launch_2d(M, N);
+    transpose_backward_kernel<<<cfg.grid, cfg.block>>>(d_dOut, d_dX, M, N);
+    cudaDeviceSynchronize();
+
+    cudaMemcpy(h_dX, d_dX, size, cudaMemcpyDeviceToHost);
+
+    cudaFree(d_dOut);
+    cudaFree(d_dX);
+}
