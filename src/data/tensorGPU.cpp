@@ -26,7 +26,7 @@ void Tensor::zero_grad() {
 
 void Tensor::backward() {
     if (!requires_grad) {
-        throw std::runtime_error("Cannot call backward on tensor that doesn't require grad");
+        throw std::runtime_error("Cnnot acall backward on tensor that doesnt require grad");
     }
     
     Eigen::MatrixXd initial_grad = Eigen::MatrixXd::Ones(data.rows(), data.cols());
@@ -43,81 +43,149 @@ void Tensor::backward_impl(const Eigen::MatrixXd& upstream_grad) {
     }
 }
 
-// Operations
-// Here is where we're actually storing the gradiernt formulas
 std::shared_ptr<Tensor> Tensor::add(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
 
-    
+    if (a->data.size() != b->data.size())
+        throw std::runtime_error("Add: tensor size mismatch");
 
-    auto result = std::make_shared<Tensor>(a->data + b->data, 
-                                          a->requires_grad || b->requires_grad);
-    
+    Eigen::MatrixXd out(a->data.rows(), a->data.cols());
+
+    if (a->device == Device::CPU) {
+        out = a->data + b->data;
+    } else if (a->device == Device::CUDA) {
+        CudaOps::add(a->data.data(), b->data.data(), out.data(), a->data.size());
+    } else {
+        throw std::runtime_error("Unsupported device");
+    }
+
+    auto result = std::make_shared<Tensor>(out, a->requires_grad || b->requires_grad, a->device);
+
     if (result->requires_grad) {
-        // we need to know where the c comes from do we update it's dependencies.
         result->dependencies = {a, b};
-        // imp: how do we know what grad function looks like? this is where we have that:
         result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
-            if (a->requires_grad) {
-                a->backward_impl(result->grad); // send this along the edge of a 
+            Eigen::MatrixXd grad_a(a->data.rows(), a->data.cols());
+            Eigen::MatrixXd grad_b(b->data.rows(), b->data.cols());
+
+            if (a->requires_grad || b->requires_grad) {
+                if (result->device == Device::CPU) {
+                    grad_a = result->grad;
+                    grad_b = result->grad;
+                } else if (result->device == Device::CUDA) {
+                    CudaOps::add_backward(grad_a.data(), grad_b.data(), result->grad.data(), result->grad.size());
+                } else {
+                    throw std::runtime_error("Unsupported device");
+                }
             }
-            if (b->requires_grad){
-                b->backward_impl(result->grad); // sending this along the edge of b
-            }
+
+            if (a->requires_grad)
+                a->backward_impl(grad_a);
+            if (b->requires_grad)
+                b->backward_impl(grad_b);
         });
     }
-    
+
     return result;
 }
 
-
 std::shared_ptr<Tensor> Tensor::add_broadcast(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
+    if (a->device != b->device)
+        throw std::runtime_error("Device mismatch in Tensor::add_broadcast");
 
-    // Broadcast addition: each row of xW gets b added to it
+    Eigen::MatrixXd out(a->data.rows(), a->data.cols());
+
+    if (a->device == Device::CPU) {
+ 
+        out = a->data.rowwise() + b->data.row(0);
+    } 
+    else if (a->device == Device::CUDA) {
+        int M = static_cast<int>(a->data.rows());
+        int N = static_cast<int>(a->data.cols());
+        CudaOps::add_broadcast(
+            a->data.data(), b->data.data(), out.data(), M, N
+        );
+    } 
+    else {
+        throw std::runtime_error("Unsupported device");
+    }
+
     auto result = std::make_shared<Tensor>(
-        a->data.rowwise() + b->data.row(0), 
-        a->requires_grad || b->requires_grad
+        out, a->requires_grad || b->requires_grad, a->device
     );
-    
+
     if (result->requires_grad) {
         result->dependencies = {a, b};
         result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+            int M = static_cast<int>(a->data.rows());
+            int N = static_cast<int>(a->data.cols());
+
             if (a->requires_grad) {
-                a->backward_impl(result->grad);
+                if (a->device == Device::CPU) {
+                    a->backward_impl(result->grad);
+                } else {
+                    Eigen::MatrixXd grad_a(M, N);
+                    Eigen::MatrixXd grad_b(1, N);
+                    CudaOps::add_broadcast_backward(
+                        grad_a.data(), grad_b.data(), result->grad.data(), M, N
+                    );
+                    a->backward_impl(grad_a);
+                    if (b->requires_grad)
+                        b->backward_impl(grad_b);
+                    return;
+                }
             }
-            if (b->requires_grad) {
-                // Sum gradients across batch dimension for bias
+
+            if (b->requires_grad && a->device == Device::CPU) {
                 Eigen::MatrixXd b_grad = result->grad.colwise().sum();
                 b->backward_impl(b_grad);
             }
         });
     }
-return result;
-    }
+
+    return result;
+}
+
 
 
 std::shared_ptr<Tensor> Tensor::matmul(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
-    auto result = std::make_shared<Tensor>(a->data * b->data, 
-                                          a->requires_grad || b->requires_grad);
+    Eigen::MatrixXd out(a->data.rows(), b->data.cols());
 
-    // actually compute the result
-    
+    if (a->device == Device::CPU) {
+        out = a->data * b->data; 
+    } else if (a->device == Device::CUDA) {
+        CudaOps::matmul(a->data.data(), b->data.data(), out.data(),
+                        a->data.rows(), b->data.cols(), a->data.cols());
+    } else {
+        throw std::runtime_error("Unsupported device");
+    }
+
+    auto result = std::make_shared<Tensor>(out, a->requires_grad || b->requires_grad, a->device);
+
     if (result->requires_grad) {
         result->dependencies = {a, b};
-        // again set the dependencies 
         result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+            Eigen::MatrixXd grad_a(a->data.rows(), a->data.cols());
+            Eigen::MatrixXd grad_b(b->data.rows(), b->data.cols());
+
             if (a->requires_grad) {
-                // c wrt to a is just b
-                Eigen::MatrixXd grad_a = result->grad * b->data.transpose();
+                if (a->device == Device::CPU)
+                    grad_a = result->grad * b->data.transpose();
+                else
+                    CudaOps::matmul_backward(result->grad.data(), b->data.data(), grad_a.data(),
+                                             a->data.rows(), b->data.cols(), a->data.cols(), "A");
                 a->backward_impl(grad_a);
             }
+
             if (b->requires_grad) {
-                // c wrt to b is just a
-                Eigen::MatrixXd grad_b = a->data.transpose() * result->grad;
+                if (b->device == Device::CPU)
+                    grad_b = a->data.transpose() * result->grad;
+                else
+                    CudaOps::matmul_backward(a->data.data(), result->grad.data(), grad_b.data(),
+                                             a->data.rows(), b->data.cols(), a->data.cols(), "B");
                 b->backward_impl(grad_b);
             }
         });
     }
-    
+
     return result;
 }
 
@@ -197,33 +265,41 @@ std::shared_ptr<Tensor> Tensor::concat_cols(const std::vector<std::shared_ptr<Te
 
 
 
-
 std::shared_ptr<Tensor> Tensor::relu(std::shared_ptr<Tensor> x) {
-    Eigen::MatrixXd relu_data = x->data.unaryExpr([](double v){ 
-        return std::max(0.0, v); 
-    });
-    
-    auto result = std::make_shared<Tensor>(relu_data, x->requires_grad);
-    // basically the same thing we capture the relu. take each element v and apply a relu and then just pass it within the shared ptr
-    
+    Eigen::MatrixXd out(x->data.rows(), x->data.cols());
+
+    if (x->device == Device::CPU) {
+        out = x->data.unaryExpr([](double v){ return std::max(0.0, v); });
+    } else if (x->device == Device::CUDA) {
+        CudaOps::relu_forward(x->data.data(), out.data(), x->data.size());
+    } else {
+        throw std::runtime_error("Unsupported device");
+    }
+
+    auto result = std::make_shared<Tensor>(out, x->requires_grad, x->device);
+
     if (result->requires_grad) {
         result->dependencies = {x};
-        // only one dependency 
         result->grad_fn = std::make_shared<std::function<void()>>([x, result]() {
             if (x->requires_grad) {
-                // ReLU derivative is just 1 if x > 0, else 0
-                Eigen::MatrixXd relu_grad = x->data.unaryExpr([](double v){ 
-                    return v > 0.0 ? 1.0 : 0.0; 
-                });
-                // we need to apply that for each element v.
-                Eigen::MatrixXd grad_x = result->grad.cwiseProduct(relu_grad);
-                x->backward_impl(grad_x);
+
+            Eigen::MatrixXd grad_x(x->data.rows(), x->data.cols());
+
+            if (x->device == Device::CPU) {
+                Eigen::MatrixXd relu_grad = x->data.unaryExpr([](double v){ return v > 0.0 ? 1.0 : 0.0; });
+                grad_x = result->grad.cwiseProduct(relu_grad);
+            } else if (x->device == Device::CUDA) {
+                CudaOps::relu_backward(x->data.data(), result->grad.data(), grad_x.data(), x->data.size());
+            }
+
+            x->backward_impl(grad_x);
             }
         });
     }
-    
+
     return result;
 }
+
 
 std::shared_ptr<Tensor> Tensor::gelu(std::shared_ptr<Tensor> x) {
     Eigen::MatrixXd gelu_data = x->data.unaryExpr([](double v) {
