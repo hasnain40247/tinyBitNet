@@ -382,16 +382,34 @@ std::shared_ptr<Tensor> Tensor::transpose_mat(std::shared_ptr<Tensor> a) {
 }
 
 
-// Y= X/scale => dY/dX
 std::shared_ptr<Tensor> Tensor::scale_mat(std::shared_ptr<Tensor> a, double scaler) {
-    auto result = std::make_shared<Tensor>(a->data * scaler, a->requires_grad);
+    Eigen::MatrixXd out(a->data.rows(), a->data.cols());
+
+    if (a->device == Device::CPU) {
+        out = a->data * scaler;
+    } else if (a->device == Device::CUDA) {
+        CudaOps::scale(a->data.data(), out.data(), a->data.rows(), a->data.cols(), scaler);
+    } else {
+        throw std::runtime_error("Unsupported device");
+    }
+
+    auto result = std::make_shared<Tensor>(out, a->requires_grad, a->device);
 
     if (result->requires_grad) {
         result->dependencies = {a};
         result->grad_fn = std::make_shared<std::function<void()>>(
             [a, result, scaler]() {
                 if (a->requires_grad) {
-                    a->backward_impl(result->grad * scaler);
+                    Eigen::MatrixXd grad_a(a->data.rows(), a->data.cols());
+
+                    if (a->device == Device::CPU) {
+                        grad_a = result->grad * scaler;
+                    } else if (a->device == Device::CUDA) {
+                        CudaOps::scale_backward(result->grad.data(), grad_a.data(),
+                                                a->data.rows(), a->data.cols(), scaler);
+                    } 
+
+                    a->backward_impl(grad_a);
                 }
             }
         );
