@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/tinybitlib.dir/src/components/linear.cpp.o.d"
   "CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.o"
   "CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.o.d"
+  "CMakeFiles/tinybitlib.dir/src/data/tensorGPU.cpp.o"
+  "CMakeFiles/tinybitlib.dir/src/data/tensorGPU.cpp.o.d"
   "CMakeFiles/tinybitlib.dir/src/main.cpp.o"
   "CMakeFiles/tinybitlib.dir/src/main.cpp.o.d"
   "CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o"

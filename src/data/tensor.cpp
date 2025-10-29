@@ -4,14 +4,13 @@
 #include <algorithm>
 
 
-
- Tensor::Tensor(const Eigen::MatrixXd& data, bool requires_grad = false, Device device = Device::CPU)
-        : data(data), requires_grad(requires_grad), device(device) {
+Tensor::Tensor(const Eigen::MatrixXd& data, bool requires_grad)
+        : data(data), requires_grad(requires_grad) {
         if (requires_grad) grad = Eigen::MatrixXd::Zero(data.rows(), data.cols());
     }
 
-Tensor::Tensor(int rows, int cols, bool requires_grad = false, Device device = Device::CPU)
-        : data(Eigen::MatrixXd::Zero(rows, cols)), requires_grad(requires_grad), device(device) {
+Tensor::Tensor(int rows, int cols, bool requires_grad)
+        : data(Eigen::MatrixXd::Zero(rows, cols)), requires_grad(requires_grad) {
         if (requires_grad) grad = Eigen::MatrixXd::Zero(rows, cols);
     }
 
@@ -56,7 +55,9 @@ std::shared_ptr<Tensor> Tensor::add(std::shared_ptr<Tensor> a, std::shared_ptr<T
         // we need to know where the c comes from do we update it's dependencies.
         result->dependencies = {a, b};
         // imp: how do we know what grad function looks like? this is where we have that:
-        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result_weak = std::weak_ptr<Tensor>(result)]() {
+            auto result = result_weak.lock();
+            if (!result) return;
             if (a->requires_grad) {
                 a->backward_impl(result->grad); // send this along the edge of a 
             }
@@ -80,7 +81,9 @@ std::shared_ptr<Tensor> Tensor::add_broadcast(std::shared_ptr<Tensor> a, std::sh
     
     if (result->requires_grad) {
         result->dependencies = {a, b};
-        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result_weak = std::weak_ptr<Tensor>(result)]() {
+            auto result = result_weak.lock();
+            if (!result) return;
             if (a->requires_grad) {
                 a->backward_impl(result->grad);
             }
@@ -104,7 +107,9 @@ std::shared_ptr<Tensor> Tensor::matmul(std::shared_ptr<Tensor> a, std::shared_pt
     if (result->requires_grad) {
         result->dependencies = {a, b};
         // again set the dependencies 
-        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result_weak = std::weak_ptr<Tensor>(result)]() {
+            auto result = result_weak.lock();
+            if (!result) return;
             if (a->requires_grad) {
                 // c wrt to a is just b
                 Eigen::MatrixXd grad_a = result->grad * b->data.transpose();
@@ -131,7 +136,9 @@ std::shared_ptr<Tensor> Tensor::slice_cols(std::shared_ptr<Tensor> a,int start_c
     if (result->requires_grad) {
         result->dependencies = {a};
         result->grad_fn = std::make_shared<std::function<void()>>(
-            [a, result, start_col, width]() {
+            [a, result_weak = std::weak_ptr<Tensor>(result), start_col, width]() {
+                auto result = result_weak.lock();
+                if (!result) return;
                 if (a->requires_grad) {
            
                     Eigen::MatrixXd grad_parent = Eigen::MatrixXd::Zero(
@@ -180,8 +187,10 @@ std::shared_ptr<Tensor> Tensor::concat_cols(const std::vector<std::shared_ptr<Te
     // Set up grad_fn to slice the gradient back to each tensor
     if (requires_grad) {
         result->dependencies = tensors;
-        result->grad_fn = std::make_shared<std::function<void()>>([tensors, result]() {
-            int col_offset = 0;
+        result->grad_fn = std::make_shared<std::function<void()>>([tensors, result_weak = std::weak_ptr<Tensor>(result)]() {
+        int col_offset = 0;
+        auto result = result_weak.lock();
+        if (!result) return;
             for (auto& t : tensors) {
                 if (t->requires_grad) {
                     Eigen::MatrixXd grad_slice = result->grad.block(0, col_offset, t->data.rows(), t->data.cols());
@@ -209,7 +218,9 @@ std::shared_ptr<Tensor> Tensor::relu(std::shared_ptr<Tensor> x) {
     if (result->requires_grad) {
         result->dependencies = {x};
         // only one dependency 
-        result->grad_fn = std::make_shared<std::function<void()>>([x, result]() {
+        result->grad_fn = std::make_shared<std::function<void()>>([x, result_weak = std::weak_ptr<Tensor>(result)]() {
+            auto result = result_weak.lock();
+            if (!result) return;
             if (x->requires_grad) {
                 // ReLU derivative is just 1 if x > 0, else 0
                 Eigen::MatrixXd relu_grad = x->data.unaryExpr([](double v){ 
@@ -236,7 +247,9 @@ std::shared_ptr<Tensor> Tensor::gelu(std::shared_ptr<Tensor> x) {
 
     if (result->requires_grad) {
         result->dependencies = {x};
-        result->grad_fn = std::make_shared<std::function<void()>>([x, result]() {
+        result->grad_fn = std::make_shared<std::function<void()>>([x, result_weak = std::weak_ptr<Tensor>(result)]() {
+            auto result = result_weak.lock();
+            if (!result) return;
             if (x->requires_grad) {
                 // derivative of gelu approximation
                 Eigen::MatrixXd grad_gelu = x->data.unaryExpr([](double v) {
@@ -266,7 +279,9 @@ std::shared_ptr<Tensor> Tensor::transpose_mat(std::shared_ptr<Tensor> a) {
     if (result->requires_grad) {
         result->dependencies = {a};
         result->grad_fn = std::make_shared<std::function<void()>>(
-            [a, result]() {
+            [a, result_weak = std::weak_ptr<Tensor>(result)]() {
+            auto result = result_weak.lock();
+            if (!result) return;
                 if (a->requires_grad) {
                     a->backward_impl(result->grad.transpose());
                 }
@@ -286,7 +301,9 @@ std::shared_ptr<Tensor> Tensor::scale_mat(std::shared_ptr<Tensor> a, double scal
     if (result->requires_grad) {
         result->dependencies = {a};
         result->grad_fn = std::make_shared<std::function<void()>>(
-            [a, result, scaler]() {
+            [a, result_weak = std::weak_ptr<Tensor>(result), scaler]() {
+                  auto result = result_weak.lock();
+            if (!result) return;
                 if (a->requires_grad) {
                     a->backward_impl(result->grad * scaler);
                 }
@@ -296,7 +313,6 @@ std::shared_ptr<Tensor> Tensor::scale_mat(std::shared_ptr<Tensor> a, double scal
 
     return result;
 }
-
 
 
 
@@ -315,7 +331,9 @@ std::shared_ptr<Tensor> Tensor::softmax_mat(std::shared_ptr<Tensor> a) {
     // Step 3: define grad_fn if needed
     if (result->requires_grad) {
         result->dependencies = {a};
-        result->grad_fn = std::make_shared<std::function<void()>>([a, result]() {
+        result->grad_fn = std::make_shared<std::function<void()>>([a, result_weak = std::weak_ptr<Tensor>(result)]() {
+              auto result = result_weak.lock();
+            if (!result) return;
             if (a->requires_grad) {
          
                 Eigen::MatrixXd grad_input(a->data.rows(), a->data.cols());
@@ -334,6 +352,8 @@ std::shared_ptr<Tensor> Tensor::softmax_mat(std::shared_ptr<Tensor> a) {
     return result;
 }
 
+
+
 std::shared_ptr<Tensor> Tensor::mul_broadcast(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b) {
     // Broadcast multiply: each row of 'a' multiplied elementwise by b
     auto result = std::make_shared<Tensor>(
@@ -343,7 +363,9 @@ std::shared_ptr<Tensor> Tensor::mul_broadcast(std::shared_ptr<Tensor> a, std::sh
 
     if (result->requires_grad) {
         result->dependencies = {a, b};
-        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result]() {
+        result->grad_fn = std::make_shared<std::function<void()>>([a, b, result_weak = std::weak_ptr<Tensor>(result)]() {
+              auto result = result_weak.lock();
+            if (!result) return;
             if (a->requires_grad) {
                 // dL/da = dL/dout * b
                 Eigen::MatrixXd grad_a = result->grad.array().rowwise() * b->data.array().row(0);
@@ -372,7 +394,10 @@ std::shared_ptr<Tensor> Tensor::quantize_tensor(std::shared_ptr<Tensor> a,double
 
     if (result->requires_grad) {
         result->dependencies = {a};
-        result->grad_fn = std::make_shared<std::function<void()>>([a, result]() {
+        result->grad_fn = std::make_shared<std::function<void()>>([a, result_weak = std::weak_ptr<Tensor>(result)]() {
+            
+            auto result = result_weak.lock();
+            if (!result) return;
             if (a->requires_grad) {
                 a->backward_impl(result->grad);
             }
@@ -443,7 +468,9 @@ std::shared_ptr<Tensor> Tensor::binarize_tensor(std::shared_ptr<Tensor> a) {
 
     if (result->requires_grad) {
         result->dependencies = {a};
-        result->grad_fn = std::make_shared<std::function<void()>>([a, result]() {
+        result->grad_fn = std::make_shared<std::function<void()>>([a, result_weak = std::weak_ptr<Tensor>(result)]() {
+              auto result = result_weak.lock();
+            if (!result) return;
             if (a->requires_grad) {
                 a->backward_impl(result->grad);
             }
@@ -483,4 +510,15 @@ void Tensor::get() const {
     shape();
     std::cout << "requires_grad: " << (requires_grad ? "true" : "false") << std::endl;
     std::cout << "==============" << std::endl;
+}
+
+
+void Tensor::detach_graph() {
+    grad_fn.reset();
+    for (auto& dep : dependencies) {
+        if (dep) dep->detach_graph();
+    }
+    dependencies.clear();
+
+
 }

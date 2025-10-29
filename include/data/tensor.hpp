@@ -26,6 +26,8 @@ public:
     // backward will actually do the backprop
     void backward();
     void zero_grad();
+    void detach_graph();
+
     
     // Atleast fromn what I'm reading each operation will need to have some reference
     static std::shared_ptr<Tensor> add(std::shared_ptr<Tensor> a, std::shared_ptr<Tensor> b);
@@ -79,6 +81,7 @@ public:
     void get_data() const;
     void get_grad() const;
     void get() const;
+
     
 
     void backward_impl(const Eigen::MatrixXd& upstream_grad);

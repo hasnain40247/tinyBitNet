@@ -455,3 +455,48 @@ void CudaOps::transpose_backward(const double* h_dOut, double* h_dX, int M, int 
     cudaFree(d_dOut);
     cudaFree(d_dX);
 }
+
+
+void CudaOps::binarize_forward(const double* h_A, double* h_C, int M, int N) {
+    int total = M * N;
+    size_t bytes = total * sizeof(double);
+
+    double *d_A, *d_C;
+    cudaMalloc(&d_A, bytes);
+    cudaMalloc(&d_C, bytes);
+
+    cudaMemcpy(d_A, h_A, bytes, cudaMemcpyHostToDevice);
+
+    double alpha = 0.0;
+    for (int i = 0; i < total; i++) alpha += h_A[i];
+    alpha /= total;
+
+    LaunchConfig cfg = make_launch_1d(total);
+    binarize_forward_kernel<<<cfg.blocks, cfg.threads>>>(d_A, d_C, alpha, total);
+    cudaDeviceSynchronize();
+
+    cudaMemcpy(h_C, d_C, bytes, cudaMemcpyDeviceToHost);
+
+    cudaFree(d_A);
+    cudaFree(d_C);
+}
+
+void CudaOps::binarize_backward(const double* h_dOut, double* h_dA, int M, int N) {
+    int total = M * N;
+    size_t bytes = total * sizeof(double);
+
+    double *d_dOut, *d_dA;
+    cudaMalloc(&d_dOut, bytes);
+    cudaMalloc(&d_dA, bytes);
+
+    cudaMemcpy(d_dOut, h_dOut, bytes, cudaMemcpyHostToDevice);
+
+    LaunchConfig cfg = make_launch_1d(total);
+    binarize_backward_kernel<<<cfg.blocks, cfg.threads>>>(d_dOut, d_dA, total);
+    cudaDeviceSynchronize();
+
+    cudaMemcpy(h_dA, d_dA, bytes, cudaMemcpyDeviceToHost);
+
+    cudaFree(d_dOut);
+    cudaFree(d_dA);
+}

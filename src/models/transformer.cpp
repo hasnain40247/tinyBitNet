@@ -25,7 +25,7 @@ std::shared_ptr<Tensor> Transformer::forward(const std::vector<int>& input_indic
     }
 
     x=lm_head->forward(x);
-    x->shape();
+    // x->shape();
 
     return x;
 }

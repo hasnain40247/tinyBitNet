@@ -14,6 +14,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/hasnainsikora/Projects/tinyBit/src/components/layerNorm.cpp" "CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/layerNorm.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/components/linear.cpp" "CMakeFiles/tinybitlib.dir/src/components/linear.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/components/linear.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/data/tensor.cpp" "CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.o.d"
+  "/Users/hasnainsikora/Projects/tinyBit/src/data/tensorGPU.cpp" "CMakeFiles/tinybitlib.dir/src/data/tensorGPU.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/data/tensorGPU.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/main.cpp" "CMakeFiles/tinybitlib.dir/src/main.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/main.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/models/feedForward.cpp" "CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/models/feedForward.cpp.o.d"
   "/Users/hasnainsikora/Projects/tinyBit/src/models/transformer.cpp" "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o" "gcc" "CMakeFiles/tinybitlib.dir/src/models/transformer.cpp.o.d"

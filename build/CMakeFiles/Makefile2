@@ -91,12 +91,12 @@ clean: CMakeFiles/tests.dir/clean
 CMakeFiles/tinybitlib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=4,5,6,7,8,9,10,11,12,13,14,15 "Built target tinybitlib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=4,5,6,7,8,9,10,11,12,13,14,15,16 "Built target tinybitlib"
 .PHONY : CMakeFiles/tinybitlib.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tinybitlib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles 12
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/tinybitlib.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles 0
 .PHONY : CMakeFiles/tinybitlib.dir/rule
@@ -108,7 +108,7 @@ tinybitlib: CMakeFiles/tinybitlib.dir/rule
 # codegen rule for target.
 CMakeFiles/tinybitlib.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=4,5,6,7,8,9,10,11,12,13,14,15 "Finished codegen for target tinybitlib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=4,5,6,7,8,9,10,11,12,13,14,15,16 "Finished codegen for target tinybitlib"
 .PHONY : CMakeFiles/tinybitlib.dir/codegen
 
 # clean rule for target.
@@ -123,12 +123,12 @@ CMakeFiles/tinybitlib.dir/clean:
 CMakeFiles/tinybitnet.dir/all: CMakeFiles/tinybitlib.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitnet.dir/build.make CMakeFiles/tinybitnet.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitnet.dir/build.make CMakeFiles/tinybitnet.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=16,17 "Built target tinybitnet"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=17,18 "Built target tinybitnet"
 .PHONY : CMakeFiles/tinybitnet.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tinybitnet.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/tinybitnet.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles 0
 .PHONY : CMakeFiles/tinybitnet.dir/rule
@@ -140,7 +140,7 @@ tinybitnet: CMakeFiles/tinybitnet.dir/rule
 # codegen rule for target.
 CMakeFiles/tinybitnet.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitnet.dir/build.make CMakeFiles/tinybitnet.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=16,17 "Finished codegen for target tinybitnet"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles --progress-num=17,18 "Finished codegen for target tinybitnet"
 .PHONY : CMakeFiles/tinybitnet.dir/codegen
 
 # clean rule for target.
@@ -160,7 +160,7 @@ CMakeFiles/tests.dir/all: CMakeFiles/tinybitlib.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles 15
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hasnainsikora/Projects/tinyBit/build/CMakeFiles 0
 .PHONY : CMakeFiles/tests.dir/rule

@@ -299,6 +299,30 @@ src/data/tensor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/data/tensor.cpp.s
 .PHONY : src/data/tensor.cpp.s
 
+src/data/tensorGPU.o: src/data/tensorGPU.cpp.o
+.PHONY : src/data/tensorGPU.o
+
+# target to build an object file
+src/data/tensorGPU.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/data/tensorGPU.cpp.o
+.PHONY : src/data/tensorGPU.cpp.o
+
+src/data/tensorGPU.i: src/data/tensorGPU.cpp.i
+.PHONY : src/data/tensorGPU.i
+
+# target to preprocess a source file
+src/data/tensorGPU.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/data/tensorGPU.cpp.i
+.PHONY : src/data/tensorGPU.cpp.i
+
+src/data/tensorGPU.s: src/data/tensorGPU.cpp.s
+.PHONY : src/data/tensorGPU.s
+
+# target to generate assembly for a file
+src/data/tensorGPU.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tinybitlib.dir/build.make CMakeFiles/tinybitlib.dir/src/data/tensorGPU.cpp.s
+.PHONY : src/data/tensorGPU.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -499,6 +523,9 @@ help:
 	@echo "... src/data/tensor.o"
 	@echo "... src/data/tensor.i"
 	@echo "... src/data/tensor.s"
+	@echo "... src/data/tensorGPU.o"
+	@echo "... src/data/tensorGPU.i"
+	@echo "... src/data/tensorGPU.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
