@@ -15,7 +15,6 @@ struct HaikuDataset {
     std::unordered_map<std::string, int> vocab;
     std::unordered_map<int, std::string> inv_vocab;
 
-    // Convert list of words → list of IDs
     std::vector<int> words_to_ids(const std::vector<std::string>& words, int max_seq = 12) const {
         std::vector<int> ids;
         ids.reserve(words.size());
@@ -49,9 +48,11 @@ HaikuDataset load_haikus(const std::string& filename, int max_seq = 12) {
         throw std::runtime_error("Cannot open file: " + filename);
 
     std::unordered_map<std::string, int> vocab;
-    int next_id = 1;  // 0 reserved for padding
+    int next_id = 1;  
     std::vector<std::vector<int>> tokenized;
     std::string line;
+
+// basically break them by slashes and spaces - i.e. tokenize with spaces.
 
     while (std::getline(file, line, '$')) {
         std::istringstream ss(line);
